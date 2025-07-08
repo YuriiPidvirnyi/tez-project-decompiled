@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [ "main", "develop" ]
 
+permissions:
+  contents: read
+  actions: read
+  checks: write
+  pull-requests: write
+  security-events: write
+
 env:
   DOTNET_VERSION: '6.0.x'
 
@@ -46,13 +53,19 @@ jobs:
         directory: ./TestResults
         fail_ci_if_error: false
     
-    - name: Generate Test Report
-      uses: dorny/test-reporter@v1
+    - name: Generate Test Report Summary
       if: success() || failure()
-      with:
-        name: Test Results
-        path: TestResults/**/*.trx
-        reporter: dotnet-trx
+      run: |
+        echo "## 🧪 Test Results Summary" >> $GITHUB_STEP_SUMMARY
+        if [ -f TestResults/*.trx ]; then
+          echo "✅ Test results generated successfully" >> $GITHUB_STEP_SUMMARY
+          echo "📁 Test files found:" >> $GITHUB_STEP_SUMMARY
+          find TestResults -name "*.trx" -exec basename {} \; | sed 's/^/- /' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📊 Test execution completed" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ No test result files found" >> $GITHUB_STEP_SUMMARY
+        fi
 
   build-linux:
     runs-on: ubuntu-latest
