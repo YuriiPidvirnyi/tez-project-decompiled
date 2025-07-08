@@ -14,8 +14,8 @@ public static class SecurePasswordHasher
 		//IL_0001: Unknown result type (might be due to invalid IL or missing references)
 		//IL_0018: Unknown result type (might be due to invalid IL or missing references)
 		//IL_001e: Expected O, but got Unknown
-		byte[] array;
-		((RandomNumberGenerator)new RNGCryptoServiceProvider()).GetBytes(array = new byte[16]);
+		byte[] array = new byte[16];
+		RandomNumberGenerator.Create().GetBytes(array);
 		Rfc2898DeriveBytes val = new Rfc2898DeriveBytes(password, array, iterations);
 		byte[] bytes = ((DeriveBytes)val).GetBytes(20);
 		byte[] array2 = new byte[36];

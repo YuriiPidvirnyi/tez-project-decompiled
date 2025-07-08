@@ -1277,8 +1277,7 @@ public static class Consts2
 	public static void LoadConstsFromFile()
 	{
 		//IL_0009: Unknown result type (might be due to invalid IL or missing references)
-		bool flag = true;
-		MessageBox.Show("Проблема з базою даних, константи взяті з файлу!");
+	MessageBox.Show("Проблема з базою даних, константи взяті з файлу!");
 		IEnumerable<CustomConst> enumerable = LoadFromFile();
 		if (enumerable != null)
 		{

@@ -54,7 +54,6 @@ public class ZontPrystinnyyTyp31
 		double num5 = 0.0;
 		double num6 = 0.0;
 		double num7 = 0.0;
-		int num8 = 750;
 		materialName = new string[32]
 		{
 			"", "", "", "", "", "", "", "", "", "",

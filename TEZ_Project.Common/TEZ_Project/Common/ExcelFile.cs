@@ -744,9 +744,7 @@ public class ExcelFile
 			catch
 			{
 			}
-			bool flag = true;
 			myExcelWorkSheet.Cells[num, "AJ"] = product.Price;
-			bool flag2 = false;
 			myExcelWorkSheet.Cells[num, "AL"] = product.MaterialCost;
 			if (string.IsNullOrWhiteSpace(product.Square) || Convert.ToDouble(product.Square) == 0.0)
 			{
@@ -765,7 +763,6 @@ public class ExcelFile
 			{
 				myExcelWorkSheet.Cells[num, "AN"] = propertyValueOrDefault32;
 			}
-			bool flag3 = false;
 			double? zarplata = GetZarplata(product);
 			if (zarplata.HasValue)
 			{
@@ -4778,8 +4775,6 @@ public class ExcelFile
 			case 'A':
 				if (text == "Product_UtkaUAK" && product is Product_UtkaUAK product_UtkaUAK)
 				{
-					int num19 = 0;
-					int num20 = 0;
 					int additionalLengthFromVidbortovka17 = MaterialHelper.GetAdditionalLengthFromVidbortovka(product_UtkaUAK.Vidbortovka);
 					spysannyaMaterialArgumentsTwo = UtkaUAK.MaterialUtkaUAK(typUAK: product_UtkaUAK.Type switch
 					{
@@ -4999,8 +4994,6 @@ public class ExcelFile
 			case 'K':
 				if (text == "Product_UtkaUK" && product is Product_UtkaUK product_UtkaUK)
 				{
-					int num17 = 0;
-					int num18 = 0;
 					int additionalLengthFromVidbortovka14 = MaterialHelper.GetAdditionalLengthFromVidbortovka(product_UtkaUK.Vidbortovka);
 					spysannyaMaterialArgumentsTwo = UtkaUK.MaterialUtkaUK(typUK: product_UtkaUK.Type switch
 					{

@@ -287,7 +287,7 @@ jobs:
     runs-on: ubuntu-latest
     name: 🚀 Deploy to Preview
     needs: [docker-build, code-analysis, performance-test]
-    if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/release/')
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/release/')
     environment: preview
     
     steps:
