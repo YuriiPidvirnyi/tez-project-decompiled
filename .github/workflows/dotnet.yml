@@ -53,7 +53,7 @@ jobs:
         dotnet-version: 6.0.x
         
     - name: Restore dependencies (All Projects)
-      run: dotnet restore
+      run: dotnet restore TEZ_Project.sln
       
     - name: Build Console Project
       run: dotnet build TEZ_Project.Console --no-restore --configuration Release
