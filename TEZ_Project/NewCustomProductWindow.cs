@@ -10,6 +10,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Markup;
+using ListView = System.Windows.Controls.ListView;
+using ComboBox = System.Windows.Controls.ComboBox;
 using TEZ_Project.Common.Data;
 using TEZ_Project.Common.Data.Entities;
 using TEZ_Project.Common.Helpers;
@@ -406,9 +408,8 @@ public class NewCustomProductWindow : Window, IComponentConnector
 		for (int i = 0; i < 40; i++)
 		{
 			int num = i + 1;
-			ref ComboBox reference = ref materialComboBox;
 			object obj = ((FrameworkElement)this).FindName(text + num);
-			reference = (ComboBox)((obj is ComboBox) ? obj : null);
+			materialComboBox = (ComboBox)((obj is ComboBox) ? obj : null);
 			object obj2 = ((FrameworkElement)this).FindName(text2 + num);
 			TextBox val = (TextBox)((obj2 is TextBox) ? obj2 : null);
 			ComboBox obj3 = materialComboBox;
@@ -541,9 +542,8 @@ public class NewCustomProductWindow : Window, IComponentConnector
 		ComboBox materialComboBox = default(ComboBox);
 		for (int i = 0; i < 40; i++)
 		{
-			ref ComboBox reference = ref materialComboBox;
 			object obj = ((FrameworkElement)this).FindName(text + (i + 1));
-			reference = (ComboBox)((obj is ComboBox) ? obj : null);
+			materialComboBox = (ComboBox)((obj is ComboBox) ? obj : null);
 			if (materialComboBox != null)
 			{
 				list.ForEach(delegate(string n)
