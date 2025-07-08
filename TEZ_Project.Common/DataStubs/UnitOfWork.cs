@@ -19,7 +19,7 @@ namespace TEZ_Project.Common.Data
             ConstRepository = new ConstRepository();
             CustomProductRepository = new CustomProductRepository();
             UserRepository = new UserRepository();
-            OrderRepository = new OrderRepository();
+            OrderRepository = new OrderRepositoryAdapter();
         }
 
         public void Save()
@@ -270,7 +270,7 @@ public void Add(CustomProduct entity)
         }
     }
 
-    public class OrderRepository : IRepository<Order>
+    public class OrderRepositoryAdapter : IRepository<Order>
     {
         private static List<Order> _orders = new List<Order>();
 
@@ -287,13 +287,6 @@ public void Add(CustomProduct entity)
         public void Delete(Order entity)
         {
             _orders.Remove(entity);
-        }
-
-        public void Delete(int id)
-        {
-            var entity = _orders.FirstOrDefault(o => o.Id == id);
-            if (entity != null)
-                _orders.Remove(entity);
         }
 
         public Task<ICollection<Order>> GetAllAsync()
