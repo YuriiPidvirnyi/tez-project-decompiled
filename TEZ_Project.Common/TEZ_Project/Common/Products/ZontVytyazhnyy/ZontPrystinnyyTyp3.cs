@@ -6456,7 +6456,6 @@ public class ZontPrystinnyyTyp3
 			num70 = (double)p2 * num19;
 			num67 = (double)f2 * num19;
 			num68 = (double)g2 * num19;
-			double num138 = (double)d2 * num19;
 			num42 = num8;
 			num43 = num9;
 			num44 = num42 + num27;

@@ -359,7 +359,6 @@ public static class TrijnykTOSHP
 		double num16 = B * k + (B1 + B2) * k1;
 		double num17 = (double)((H1 + 50 + 10) * k1) + 0.5 * ((double)H1 + num11 + 100.0 + 20.0) * Math.Sqrt(Math.Pow(num9 - F, 2.0) + Math.Pow(0.5 * (double)G, 2.0));
 		double num18 = 2.0 * (double)((H + 50 + 10) * k + (H1 + 50 + 10) * k1) + 0.5 * (double)(H + H1 + 100 + 20) * (Math.Sqrt(Math.Pow(num9, 2.0) + Math.Pow(C, 2.0)) + Math.Sqrt(Math.Pow(num9, 2.0) + Math.Pow(x, 2.0)));
-		int num19 = ((C1 >= 0) ? (H - H1 - C1) : (H1 - H - C1));
 		num13 = num15 * (Math.Sqrt(Math.Pow(num9, 2.0) + Math.Pow(C1, 2.0)) + Math.Sqrt(Math.Pow(num9, 2.0) + Math.Pow(H - H1 - C1, 2.0))) / (double)num9 + num18 + 2.0 * (num16 + num17);
 		num2 = Math.Round((1000000.0 * array[0, 0] / num13 - 1.0) * 100.0);
 		if (num2 > 20.0)

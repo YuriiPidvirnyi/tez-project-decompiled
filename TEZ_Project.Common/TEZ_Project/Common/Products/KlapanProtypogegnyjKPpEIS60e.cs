@@ -204,7 +204,6 @@ public static class KlapanProtypogegnyjKPpEIS60e
 		num++;
 		materialName[num] = Consts2.lystStalnyj15.MaterialName;
 		array[num, 0] = 0.0138;
-		double num2 = array[num, 0];
 		array[num, 1] = 0.15;
 		array[num, 4] = array[num, 0] * (double)number;
 		if (array[num, 0] < 0.005)
