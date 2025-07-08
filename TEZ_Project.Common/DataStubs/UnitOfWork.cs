@@ -9,9 +9,12 @@ namespace TEZ_Project.Common.Data
     {
         public IRepository<Const> ConstRepository { get; private set; }
 
+        public IRepository<CustomProduct> CustomProductRepository { get; private set; }
+
         public UnitOfWork()
         {
             ConstRepository = new ConstRepository();
+            CustomProductRepository = new CustomProductRepository();
         }
 
         public void Save()
@@ -54,6 +57,27 @@ namespace TEZ_Project.Common.Data
         public void Delete(Const entity)
         {
             _consts.Remove(entity);
+        }
+    }
+    }
+
+    public class CustomProductRepository : IRepository<CustomProduct>
+    {
+        private static List<CustomProduct> _products = new List<CustomProduct>();
+
+        public IEnumerable<CustomProduct> GetAll()
+        {
+            return _products;
+        }
+
+        public void Add(CustomProduct entity)
+        {
+            _products.Add(entity);
+        }
+
+        public void Delete(CustomProduct entity)
+        {
+            _products.Remove(entity);
         }
     }
 }

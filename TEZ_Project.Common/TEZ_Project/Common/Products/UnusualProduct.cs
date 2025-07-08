@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 
+using TEZ_Project.Common.Data;
+using TEZ_Project;
+
 namespace TEZ_Project.Common.Products;
 
 public class UnusualProduct
