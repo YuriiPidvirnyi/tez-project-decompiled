@@ -1498,7 +1498,11 @@ public class AluminiumGrid
 			text = ((!(typReshitky == "однорядна")) ? (text + "2 (" + text2 + ") ") : (text + "1 (" + text2 + ") "));
 			text = text + B + "х" + H + "(h)";
 			text = text + " - " + number + " шт";
+			#if WINDOWS
+
 			val9.FormatFlags = (StringFormatFlags)1;
+
+			#endif
 			val2.DrawString(text, val6, (Brush)(object)val8, (float)(num5 / 2), (float)num2, val9);
 			Image val10 = Image.FromFile(WPFHelper.GetProjectRootPath() + "\\Images\\AluminiumGrid\\Odnorjadna_H.jpg");
 			if (typReshitky == "однорядна")
@@ -1519,22 +1523,38 @@ public class AluminiumGrid
 			{
 				int num9 = num + 110;
 				int num10 = num2 + 25;
+				#if WINDOWS
+
 				val9.FormatFlags = (StringFormatFlags)1;
+
+				#endif
 				val2.DrawString(B.ToString(), val7, (Brush)(object)val8, (float)num9, (float)num10, val9);
 				num9 = num;
 				num10 = num2 + 20 + 90;
+				#if WINDOWS
+
 				val9.FormatFlags = (StringFormatFlags)1;
+
+				#endif
 				val2.DrawString(H.ToString(), val7, (Brush)(object)val8, (float)num9, (float)num10, val9);
 			}
 			else
 			{
 				int num9 = num + 130;
 				int num10 = num2 + 30;
+				#if WINDOWS
+
 				val9.FormatFlags = (StringFormatFlags)1;
+
+				#endif
 				val2.DrawString(B.ToString(), val7, (Brush)(object)val8, (float)num9, (float)num10, val9);
 				num9 = num;
 				num10 = num2 + 20 + 130;
+				#if WINDOWS
+
 				val9.FormatFlags = (StringFormatFlags)1;
+
+				#endif
 				val2.DrawString(H.ToString(), val7, (Brush)(object)val8, (float)num9, (float)num10, val9);
 			}
 			int num11 = 10;

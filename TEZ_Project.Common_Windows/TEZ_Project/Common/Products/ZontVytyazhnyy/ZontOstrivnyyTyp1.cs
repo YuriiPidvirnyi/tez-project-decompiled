@@ -5643,7 +5643,11 @@ public class ZontOstrivnyyTyp1
 			text = text + number + " шт";
 			text = text + " №Замовлення" + orderCode;
 			text = text + ", Контрагент:" + contragent;
+			#if WINDOWS
+
 			val9.FormatFlags = (StringFormatFlags)1;
+
+			#endif
 			val2.DrawString(text, val6, (Brush)(object)val8, (float)(num / 2), (float)num5, val9);
 			num18 = (double)(num - num3 - num4) / ((double)B + (double)L * Math.Cos(num17));
 			double num22 = (double)L * Math.Sin(num17);
@@ -5752,7 +5756,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num47 + 5.0, num49, num47 + 5.0, num48, num18, val2, val3);
 					num50 = num47 - (double)num21;
 					num51 = (num48 + num49) / 2.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)2;
+
+					#endif
 					val2.DrawString(p1.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 				}
 				else if (vyhid1 == "прямокутний")
@@ -5780,7 +5788,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num55 + 5.0, num57, num55 + 5.0, num56, num18, val2, val3);
 					num50 = num55 - (double)num21;
 					num51 = (num56 + num57) / 2.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)2;
+
+					#endif
 					val2.DrawString(p1.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = num36;
 					num35 = num37;
@@ -5843,7 +5855,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num65 + 5.0, num67, num65 + 5.0, num66, num18, val2, val3);
 					num50 = num65 - (double)num21;
 					num51 = (num66 + num67) / 2.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)2;
+
+					#endif
 					val2.DrawString(p2.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 				}
 				else if (vyhid2 == "прямокутний")
@@ -5871,7 +5887,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num70 + 5.0, num72, num70 + 5.0, num71, num18, val2, val3);
 					num50 = num70 - (double)num21;
 					num51 = (num71 + num72) / 2.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)2;
+
+					#endif
 					val2.DrawString(p2.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = num36;
 					num35 = num37;
@@ -5934,7 +5954,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num80 + 5.0, num82, num80 + 5.0, num81, num18, val2, val3);
 					num50 = num80 - (double)num21;
 					num51 = (num81 + num82) / 2.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)2;
+
+					#endif
 					val2.DrawString(p3.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 				}
 				else if (vyhid3 == "прямокутний")
@@ -5962,7 +5986,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num85 + 5.0, num87, num85 + 5.0, num86, num18, val2, val3);
 					num50 = num85 - (double)num21;
 					num51 = (num86 + num87) / 2.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)2;
+
+					#endif
 					val2.DrawString(p3.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = num36;
 					num35 = num37;
@@ -6048,7 +6076,11 @@ public class ZontOstrivnyyTyp1
 			DrawRows(num34, num35, num36, num37, num18, val2, val3);
 			num50 = num34 - (double)num21;
 			num51 = (num35 + num37) / 2.0;
+			#if WINDOWS
+
 			val9.FormatFlags = (StringFormatFlags)2;
+
+			#endif
 			val2.DrawString(H.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 			num34 = num3 - (int)((num30 - num27) / 2.0);
 			num35 = (double)num6 + num28 * Math.Sin(num17) + num29;
@@ -6067,7 +6099,11 @@ public class ZontOstrivnyyTyp1
 			DrawRows(num34, num35, num36, num37, num18, val2, val3);
 			num50 = (num34 + num36) / 2.0;
 			num51 = num37 + (double)num21;
+			#if WINDOWS
+
 			val9.FormatFlags = (StringFormatFlags)1;
+
+			#endif
 			val2.DrawString(B.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 			num34 = (double)(num3 - (int)((num30 - num27) / 2.0)) + num30 + num28 * Math.Cos(num17);
 			num35 = (double)num6 + num29;
@@ -6081,7 +6117,11 @@ public class ZontOstrivnyyTyp1
 			DrawRows(num34, num35, num36, num37, num18, val2, val3);
 			num50 = (num34 + num36) / 2.0;
 			num51 = (num35 + num37) / 2.0 + 15.0 + 5.0;
+			#if WINDOWS
+
 			val9.FormatFlags = (StringFormatFlags)1;
+
+			#endif
 			val2.DrawString(L.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 			num34 = num3;
 			num35 = (double)num6 + num28 * Math.Sin(num17);
@@ -6100,7 +6140,11 @@ public class ZontOstrivnyyTyp1
 			DrawRows(num34, num35, num36, num37, num18, val2, val3);
 			num50 = (num34 + num36) / 2.0;
 			num51 = num37 - (double)(num21 / 2);
+			#if WINDOWS
+
 			val9.FormatFlags = (StringFormatFlags)1;
+
+			#endif
 			val2.DrawString(b.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 			num34 = (double)(num3 - (int)((num30 - num27) / 2.0)) + num30 + num28 * Math.Cos(num17);
 			num35 = (double)num6 + num29;
@@ -6119,7 +6163,11 @@ public class ZontOstrivnyyTyp1
 			DrawRows(num34, num35, num36, num37, num18, val2, val3);
 			num50 = num34 + (double)num21 + 5.0;
 			num51 = (num35 + num37) / 2.0;
+			#if WINDOWS
+
 			val9.FormatFlags = (StringFormatFlags)2;
+
+			#endif
 			val2.DrawString(h.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 			double num88 = Math.Ceiling(Math.Sqrt((B - b) * (B - b) / 4 + (H - h) * (H - h)));
 			num34 = (double)(num3 - (int)((num30 - num27) / 2.0)) + num30 + num28 * Math.Cos(num17);
@@ -6146,7 +6194,11 @@ public class ZontOstrivnyyTyp1
 			DrawRows(num34, num35, num36, num37, num18, val2, val3);
 			num50 = (num34 + num36) / 2.0 + (double)num21;
 			num51 = (num35 + num37) / 2.0 - (double)(num21 / 2);
+			#if WINDOWS
+
 			val9.FormatFlags = (StringFormatFlags)1;
+
+			#endif
 			val2.DrawString(num88.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 			double num94 = Math.Atan((2.0 * (double)H - (double)h) / ((double)B - (double)b));
 			double num95 = Math.Min(num31 / 2.0, 20.0);
@@ -6158,9 +6210,17 @@ public class ZontOstrivnyyTyp1
 			num37 = (num35 + num43) / 2.0;
 			val2.DrawBezier(val3, (float)num42, (float)num43, (float)num36, (float)num37, (float)num34, (float)num35, (float)num34, (float)num35);
 			num94 = Math.Round(num94 * 180.0 / Math.PI, MidpointRounding.AwayFromZero) + 90.0;
+			#if WINDOWS
+
 			val9.FormatFlags = (StringFormatFlags)1;
+
+			#endif
 			val2.DrawString(num94 + "°", val7, (Brush)(object)val8, (float)(num36 - 10.0), (float)num37, val9);
+			#if WINDOWS
+
 			val9.FormatFlags = (StringFormatFlags)2;
+
+			#endif
 			if (zhyrFiltr == "так")
 			{
 				double num96 = 0.0;
@@ -6361,7 +6421,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num18, val2, val3);
 					num50 = (num90 + num92) / 2.0;
 					num51 = num91 + (double)num21;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(num97.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = num149 + num116;
 					num35 = num150;
@@ -6382,7 +6446,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num36, num37, num34, num35, num18, val2, val3);
 					num50 = num34 - (double)num21 - 3.0;
 					num51 = (num35 + num37) / 2.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(num98.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = num151;
 					num35 = num152;
@@ -6402,7 +6470,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num36, num37, num34, num35, num18, val2, val3);
 					num50 = (num34 + num36) / 2.0;
 					num51 = num35 - (double)num21 - 3.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(num104.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = num151;
 					num35 = num152;
@@ -6426,7 +6498,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num18, val2, val3);
 					num50 = (num34 + num36) / 2.0 + (double)num21;
 					num51 = (num35 + num37) / 2.0 - (double)(num21 / 2);
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(num105.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = num151 + num121 * Math.Cos(num89);
 					num35 = num152 + num121 * Math.Sin(num89);
@@ -6451,7 +6527,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num18, val2, val3);
 					num50 = num34 + (double)num21;
 					num51 = (num35 + num37) / 2.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(num106.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = num149 + num116;
 					num35 = num150 - num117;
@@ -6475,7 +6555,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num36, num37, num34, num35, num18, val2, val3);
 					num50 = (num34 + num36) / 2.0 + (double)num21;
 					num51 = (num35 + num37) / 2.0 - (double)(num21 / 2);
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(num99.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = num149 + num116;
 					num35 = num150 - num117;
@@ -6515,7 +6599,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num36, num37, num34, num35, num18, val2, val3);
 					num50 = (num34 + num36) / 2.0 - (double)num21;
 					num51 = (num35 + num37) / 2.0 - (double)(num21 / 2);
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(num107.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = num153;
 					num35 = num154;
@@ -6555,7 +6643,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num18, val2, val3);
 					num50 = (num34 + num36) / 2.0 - (double)num21;
 					num51 = (num35 + num37) / 2.0 + (double)(num21 / 2);
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(num108.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 				}
 				else
@@ -6763,7 +6855,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num34, num35, num36, num37, num18, val2, val3);
 						num50 = (num90 + num92) / 2.0;
 						num51 = num91 + (double)num21;
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(num112.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 						num34 = num170 + num131;
 						num35 = num171;
@@ -6789,7 +6885,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num36, num37, num34, num35, num18, val2, val3);
 						num50 = num34 - (double)num21 - 3.0;
 						num51 = (num35 + num37) / 2.0;
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(num113.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 						num34 = num172 - num120 - 4.0 * num134;
 						num35 = num173;
@@ -6811,7 +6911,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num34, num35, num36, num37, num18, val2, val3);
 						num50 = num34 - (double)num21 - 3.0;
 						num51 = (num35 + num37) / 2.0;
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(num114.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 						num34 = num172 - num120 - 4.0 * num134;
 						num35 = num173 + num133;
@@ -6831,7 +6935,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num36, num37, num34, num35, num18, val2, val3);
 						num50 = (num34 + num36) / 2.0;
 						num51 = num35 + (double)num21;
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(num115.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 						num34 = num172;
 						num35 = num173;
@@ -6851,7 +6959,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num36, num37, num34, num35, num18, val2, val3);
 						num50 = (num34 + num36) / 2.0;
 						num51 = num35 - (double)num21 - 3.0;
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(num104.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 						num34 = num172;
 						num35 = num173;
@@ -6875,7 +6987,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num34, num35, num36, num37, num18, val2, val3);
 						num50 = (num34 + num36) / 2.0 + (double)num21;
 						num51 = (num35 + num37) / 2.0 - (double)(num21 / 2);
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(num105.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 						num34 = num172 + num121 * Math.Cos(num89);
 						num35 = num173 + num121 * Math.Sin(num89);
@@ -6900,7 +7016,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num34, num35, num36, num37, num18, val2, val3);
 						num50 = num34 + (double)num21;
 						num51 = (num35 + num37) / 2.0;
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(num106.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 						num34 = num153;
 						num35 = num154;
@@ -6924,7 +7044,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num36, num37, num34, num35, num18, val2, val3);
 						num50 = (num34 + num36) / 2.0 - (double)num21;
 						num51 = (num35 + num37) / 2.0 - (double)(num21 / 2);
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(num107.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 						num34 = num153;
 						num35 = num154;
@@ -6964,7 +7088,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num34, num35, num36, num37, num18, val2, val3);
 						num50 = (num34 + num36) / 2.0 - (double)num21;
 						num51 = (num35 + num37) / 2.0 + (double)(num21 / 2);
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(num108.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					}
 					else
@@ -6985,7 +7113,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num34, num35, num36, num37, num18, val2, val3);
 						num50 = (num34 + num36) / 2.0;
 						num51 = num37 + (double)num21 + 3.0;
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(G.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 						num34 = (double)num3 + (num27 + num32) / 2.0;
 						num35 = (double)num6 + num28 * Math.Sin(num17);
@@ -7147,7 +7279,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num34, num35, num36, num37, num18, val2, val3);
 						num50 = (num90 + num92) / 2.0;
 						num51 = num91 + (double)num21;
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(num112.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 						num34 = num188 + num131;
 						num35 = num189;
@@ -7173,7 +7309,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num36, num37, num34, num35, num18, val2, val3);
 						num50 = num34 - (double)num21 - 3.0;
 						num51 = (num35 + num37) / 2.0;
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(num113.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 						num34 = num190 - num118 - 4.0 * num134;
 						num35 = num191;
@@ -7195,7 +7335,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num34, num35, num36, num37, num18, val2, val3);
 						num50 = num34 - (double)num21 - 3.0;
 						num51 = (num35 + num37) / 2.0;
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(num114.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 						num34 = num190 - num118 - 4.0 * num134;
 						num35 = num191 + num133;
@@ -7215,7 +7359,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num36, num37, num34, num35, num18, val2, val3);
 						num50 = (num34 + num36) / 2.0;
 						num51 = num35 + (double)num21;
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(num115.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 						num34 = num190;
 						num35 = num191;
@@ -7235,7 +7383,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num36, num37, num34, num35, num18, val2, val3);
 						num50 = (num34 + num36) / 2.0;
 						num51 = num35 - (double)num21 - 3.0;
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(num100.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 						num34 = num190;
 						num35 = num191;
@@ -7260,7 +7412,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num34, num35, num36, num37, num18, val2, val3);
 						num50 = num34 + (double)num21;
 						num51 = (num35 + num37) / 2.0;
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(num101.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 						num34 = num153;
 						num35 = num154;
@@ -7284,7 +7440,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num36, num37, num34, num35, num18, val2, val3);
 						num50 = (num34 + num36) / 2.0 - (double)num21;
 						num51 = (num35 + num37) / 2.0 - (double)(num21 / 2);
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(num102.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 						num34 = num153;
 						num35 = num154;
@@ -7324,7 +7484,11 @@ public class ZontOstrivnyyTyp1
 						DrawRows(num34, num35, num36, num37, num18, val2, val3);
 						num50 = (num34 + num36) / 2.0 - (double)num21;
 						num51 = (num35 + num37) / 2.0 + (double)(num21 / 2);
+						#if WINDOWS
+
 						val9.FormatFlags = (StringFormatFlags)1;
+
+						#endif
 						val2.DrawString(num103.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					}
 				}
@@ -7426,7 +7590,11 @@ public class ZontOstrivnyyTyp1
 				DrawRows(num34, num35, num36, num37, num19, val2, val3);
 				num50 = num34 - (double)num21;
 				num51 = (num91 + num93) / 2.0;
+				#if WINDOWS
+
 				val9.FormatFlags = (StringFormatFlags)2;
+
+				#endif
 				val2.DrawString(b.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 				num34 = (double)num8 + num28;
 				num35 = (double)num9 + num30;
@@ -7449,7 +7617,11 @@ public class ZontOstrivnyyTyp1
 				DrawRows(num34, num35, num36, num37, num19, val2, val3);
 				num50 = num34 + (double)num21;
 				num51 = (num91 + num93) / 2.0;
+				#if WINDOWS
+
 				val9.FormatFlags = (StringFormatFlags)2;
+
+				#endif
 				val2.DrawString(B.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 				num34 = num8;
 				num35 = (double)num9 + num30;
@@ -7472,7 +7644,11 @@ public class ZontOstrivnyyTyp1
 				val2.DrawLine(val3, (float)num34, (float)num35, (float)num36, (float)num37);
 				num50 = (num90 + num92) / 2.0;
 				num51 = (num91 + num93) / 2.0 + (double)num21;
+				#if WINDOWS
+
 				val9.FormatFlags = (StringFormatFlags)1;
+
+				#endif
 				val2.DrawString(L.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 				if (vyhid1 == "круглий")
 				{
@@ -7499,7 +7675,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num19, val2, val3);
 					num50 = (num34 + num36) / 2.0;
 					num51 = num37 - (double)num21;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(f1.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = (double)num8 + num38;
 					num35 = (double)num9 + (num30 - num27) / 2.0 + num39;
@@ -7517,7 +7697,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num36, num37, num34, num35, num19, val2, val3);
 					num50 = num34 + (double)num21;
 					num51 = ((vyhid2 == "прямокутний") ? (num37 + 15.0) : ((num35 + num37) / 2.0));
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)2;
+
+					#endif
 					val2.DrawString(g1.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = (double)num8 + num38 - num40 / 2.0;
 					num35 = (double)num9 + (num30 - num27) / 2.0 + num39;
@@ -7540,7 +7724,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num19, val2, val3);
 					num50 = (num34 + num36) / 2.0;
 					num51 = num37 + (double)num21;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(d1.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 				}
 				else if (vyhid1 == "прямокутний")
@@ -7568,7 +7756,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num19, val2, val3);
 					num50 = (num34 + num36) / 2.0;
 					num51 = num37 - (double)num21;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(f1.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = (double)num8 + num38;
 					num35 = (double)num9 + (num30 - num27) / 2.0 + num39;
@@ -7586,7 +7778,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num36, num37, num34, num35, num19, val2, val3);
 					num50 = num34 + (double)num21;
 					num51 = ((vyhid2 == "прямокутний") ? (num37 + 10.0) : ((num35 + num37) / 2.0));
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)2;
+
+					#endif
 					val2.DrawString(g1.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = (double)num8 + num38 - num52 / 2.0;
 					num35 = (double)num9 + (num30 - num27) / 2.0 + num39 + num53 / 2.0;
@@ -7609,7 +7805,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num19, val2, val3);
 					num50 = (num34 + num36) / 2.0;
 					num51 = num37 + (double)num21;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(a1.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = (double)num8 + num38 - num52 / 2.0;
 					num35 = (double)num9 + (num30 - num27) / 2.0 + num39 - num53 / 2.0;
@@ -7633,7 +7833,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num19, val2, val3);
 					num50 = num34 - (double)num21 - 3.0;
 					num51 = (num35 + num37) / 2.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)2;
+
+					#endif
 					val2.DrawString(b1.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 				}
 				if (vyhid2 == "круглий")
@@ -7660,7 +7864,11 @@ public class ZontOstrivnyyTyp1
 					val2.DrawLine(val3, (float)num34, (float)num35, (float)num36, (float)num37);
 					num50 = (num34 + num36) / 2.0;
 					num51 = num37 - (double)num21;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(f2.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = (double)num8 + num58;
 					num35 = (double)num9 + (num30 - num27) / 2.0 + num59;
@@ -7678,7 +7886,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num36, num37, num34, num35, num19, val2, val3);
 					num50 = num34 + (double)num21;
 					num51 = (num35 + num37) / 2.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)2;
+
+					#endif
 					val2.DrawString(g2.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = (double)num8 + num58 - num60 / 2.0;
 					num35 = (double)num9 + (num30 - num27) / 2.0 + num59;
@@ -7701,7 +7913,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num19, val2, val3);
 					num50 = (num34 + num36) / 2.0;
 					num51 = num37 + (double)num21 + 3.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(d2.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 				}
 				else if (vyhid2 == "прямокутний")
@@ -7728,7 +7944,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num19, val2, val3);
 					num50 = (num34 + num36) / 2.0;
 					num51 = num37 - (double)num21;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(f2.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = (double)num8 + num58;
 					num35 = (double)num9 + (num30 - num27) / 2.0 + num59;
@@ -7746,7 +7966,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num36, num37, num34, num35, num19, val2, val3);
 					num50 = num34 + (double)num21;
 					num51 = ((vyhid3 == "прямокутний") ? (num37 + 15.0) : ((num35 + num37) / 2.0));
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)2;
+
+					#endif
 					val2.DrawString(g2.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = (double)num8 + num58 - num68 / 2.0;
 					num35 = (double)num9 + (num30 - num27) / 2.0 + num59 + num69 / 2.0;
@@ -7769,7 +7993,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num19, val2, val3);
 					num50 = (num34 + num36) / 2.0;
 					num51 = num37 + (double)num21;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(a2.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = (double)num8 + num58 - num68 / 2.0;
 					num35 = (double)num9 + (num30 - num27) / 2.0 + num59 - num69 / 2.0;
@@ -7792,7 +8020,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num19, val2, val3);
 					num50 = num34 - (double)num21 - 3.0;
 					num51 = (num35 + num37) / 2.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)2;
+
+					#endif
 					val2.DrawString(b2.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 				}
 				if (vyhid3 == "круглий")
@@ -7819,7 +8051,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num19, val2, val3);
 					num50 = (num34 + num36) / 2.0;
 					num51 = num37 - (double)num21;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(f3.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = (double)num8 + num73;
 					num35 = (double)num9 + (num30 - num27) / 2.0 + num74;
@@ -7837,7 +8073,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num36, num37, num34, num35, num19, val2, val3);
 					num50 = num34 + (double)num21;
 					num51 = (num35 + num37) / 2.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)2;
+
+					#endif
 					val2.DrawString(g3.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = (double)num8 + num73 - num75 / 2.0;
 					num35 = (double)num9 + (num30 - num27) / 2.0 + num74;
@@ -7860,7 +8100,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num19, val2, val3);
 					num50 = (num34 + num36) / 2.0;
 					num51 = num37 + (double)num21 + 3.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(d3.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 				}
 				else if (vyhid3 == "прямокутний")
@@ -7887,7 +8131,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num19, val2, val3);
 					num50 = (num34 + num36) / 2.0;
 					num51 = num37 - (double)num21;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(f3.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = (double)num8 + num73;
 					num35 = (double)num9 + (num30 - num27) / 2.0 + num74;
@@ -7905,7 +8153,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num36, num37, num34, num35, num19, val2, val3);
 					num50 = num34 + (double)num21;
 					num51 = (num35 + num37) / 2.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)2;
+
+					#endif
 					val2.DrawString(g3.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = (double)num8 + num73 - num83 / 2.0;
 					num35 = (double)num9 + (num30 - num27) / 2.0 + num74 + num84 / 2.0;
@@ -7928,7 +8180,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num19, val2, val3);
 					num50 = (num34 + num36) / 2.0;
 					num51 = num37 + (double)num21 + 3.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)1;
+
+					#endif
 					val2.DrawString(a3.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 					num34 = (double)num8 + num73 - num83 / 2.0;
 					num35 = (double)num9 + (num30 - num27) / 2.0 + num74 - num84 / 2.0;
@@ -7951,7 +8207,11 @@ public class ZontOstrivnyyTyp1
 					DrawRows(num34, num35, num36, num37, num19, val2, val3);
 					num50 = num34 - (double)num21 - 3.0;
 					num51 = (num35 + num37) / 2.0;
+					#if WINDOWS
+
 					val9.FormatFlags = (StringFormatFlags)2;
+
+					#endif
 					val2.DrawString(b3.ToString(), val7, (Brush)(object)val8, (float)num50, (float)num51, val9);
 				}
 			}
