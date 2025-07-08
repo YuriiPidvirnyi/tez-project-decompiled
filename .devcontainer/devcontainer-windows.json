@@ -1,7 +1,10 @@
 {
-  "name": "TEZ Project - Windows .NET 6.0 WPF",
-  "image": "mcr.microsoft.com/devcontainers/dotnet:0-6.0-windowsservercore-ltsc2019",
+  "name": "TEZ Project - Windows Desktop",
+  "image": "mcr.microsoft.com/vscode/devcontainers/base:ubuntu",
   "features": {
+    "ghcr.io/devcontainers/features/dotnet:1": {
+      "version": "6.0"
+    },
     "ghcr.io/devcontainers/features/git:1": {},
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
@@ -10,8 +13,7 @@
       "extensions": [
         "ms-dotnettools.csharp",
         "ms-dotnettools.vscode-dotnet-runtime",
-        "ms-vscode.vscode-json",
-        "ms-vscode.powershell"
+        "ms-vscode.vscode-json"
       ],
       "settings": {
         "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
@@ -20,6 +22,6 @@
     }
   },
   "forwardPorts": [5000, 5001],
-  "postCreateCommand": "dotnet restore",
+  "postCreateCommand": "sudo apt update && sudo apt install -y mono-complete && dotnet restore",
   "remoteUser": "vscode"
 }
