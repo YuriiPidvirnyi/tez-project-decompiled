@@ -25,5 +25,18 @@ namespace TEZ_Project.Common.Data
             MaterialName = materialName;
             Price = price;
         }
+
+        // Constructor with 8 parameters as used in Consts2.cs
+        public CustomConst(string nameInApp, double price, string materialName, string code1, string materialName1C, string code2, string odVym1, string odVym2)
+        {
+            NameInApp = nameInApp;
+            Price = price;
+            MaterialName = materialName;
+            Code1 = code1;
+            MaterialName1C = materialName1C;
+            Code2 = code2;
+            OdVym1 = odVym1;
+            OdVym2 = odVym2;
+        }
     }
 }
