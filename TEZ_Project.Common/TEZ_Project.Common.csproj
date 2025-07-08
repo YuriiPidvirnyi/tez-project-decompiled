@@ -25,13 +25,27 @@
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
   </ItemGroup>
 
-  <!-- Exclude problematic decompiled files -->
+  <!-- Exclude problematic decompiled files and include stubs -->
   <ItemGroup>
     <Compile Remove="Microsoft\Office\Interop\Excel\**" />
     <Compile Remove="TEZ_Project\Common\Migrations\**" />
+    <Compile Remove="TEZ_Project\Common\Data\**" />
     <Compile Remove="--f__AnonymousType*.cs" />
     <Compile Remove="_003C_003E*.cs" />
     <Compile Remove="*AnonymousType*.cs" />
+  </ItemGroup>
+  
+  <!-- Include working Data files from original location -->
+  <ItemGroup>
+    <Compile Include="TEZ_Project\Common\Data\OrderModel.cs" />
+    <Compile Include="TEZ_Project\Common\Data\Role.cs" />
+    <Compile Include="TEZ_Project\Common\Data\BaseNameDto.cs" />
+    <Compile Include="TEZ_Project\Common\Data\CustomProductModel.cs" />
+  </ItemGroup>
+  
+  <!-- Include stub implementations -->
+  <ItemGroup>
+    <Compile Include="DataStubs\**\*.cs" />
   </ItemGroup>
   
   <!-- Suppress ALL compilation errors for decompiled code -->
