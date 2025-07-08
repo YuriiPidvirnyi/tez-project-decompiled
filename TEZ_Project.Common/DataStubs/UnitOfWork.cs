@@ -48,6 +48,7 @@ namespace TEZ_Project.Common.Data
         T GetByName(string name);
         IEnumerable<string> GetAllNames();
         void Insert(T entity);
+        void Insert(T entity, object parameter);
         void DeleteById(int id);
         void DeleteCustomProductConsts(List<CustomProductConsts> consts);
         T GetById(int id);
@@ -92,6 +93,11 @@ namespace TEZ_Project.Common.Data
         }
 
         public void Insert(Const entity)
+        {
+            _consts.Add(entity);
+        }
+
+        public void Insert(Const entity, object parameter)
         {
             _consts.Add(entity);
         }
@@ -162,6 +168,11 @@ public void Insert(CustomProduct entity)
 {
     _products.Add(entity);
 }
+
+        public void Insert(CustomProduct entity, object parameter)
+        {
+            _products.Add(entity);
+        }
 
 public void DeleteCustomProductConsts(List<CustomProductConsts> consts)
 {
@@ -260,6 +271,11 @@ public void Add(CustomProduct entity)
             _users.Add(entity);
         }
 
+        public void Insert(User entity, object parameter)
+        {
+            _users.Add(entity);
+        }
+
         public void DeleteById(int id)
         {
             var entity = _users.FirstOrDefault(u => u.Id == id);
@@ -338,6 +354,11 @@ public void Add(CustomProduct entity)
         }
 
         public void Insert(Order entity)
+        {
+            _orders.Add(entity);
+        }
+
+        public void Insert(Order entity, object parameter)
         {
             _orders.Add(entity);
         }
@@ -425,6 +446,11 @@ public void Add(CustomProduct entity)
         }
 
         public void Insert(object entity)
+        {
+            _products.Add(entity);
+        }
+
+        public void Insert(object entity, object parameter)
         {
             _products.Add(entity);
         }
