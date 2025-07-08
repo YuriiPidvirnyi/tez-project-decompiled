@@ -2,16 +2,40 @@ name: .NET Build and Test
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main", "develop", "release/*" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
 
 jobs:
   
   # Linux Console Build (завжди працює)
-  linux-console:
+  linux-tests:
     runs-on: ubuntu-latest
-    name: 🐧 Linux Console Build
+    name: 🐧 Linux Build and Test
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build Solution
+      run: dotnet build TEZ_Project.Console.sln --no-restore --configuration Release
+
+    - name: Test Projects
+      run: dotnet test --no-restore --verbosity normal --collect "XPlat Code Coverage"
+
+    - name: Upload Linux Test Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: **/TestResults/*.trx
+        retention-days: 5
     
     steps:
     - uses: actions/checkout@v4
@@ -128,7 +152,7 @@ jobs:
   docker-build:
     runs-on: ubuntu-latest
     name: 🐳 Docker Build
-    needs: [linux-console, windows-console, windows-wpf]
+    needs: [linux-tests, windows-console, windows-wpf]
     
     steps:
     - uses: actions/checkout@v4

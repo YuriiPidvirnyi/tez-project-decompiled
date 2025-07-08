@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  tez-console:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tez-console-dev
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_ENVIRONMENT=Development
+    networks:
+      - tez-network
+    restart: unless-stopped
+
+  tez-console-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tez-console-prod
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - DOTNET_ENVIRONMENT=Production
+    networks:
+      - tez-network
+    restart: unless-stopped
+    profiles:
+      - production
+
+  # Database service for future use
+  database:
+    image: postgres:15-alpine
+    container_name: tez-database
+    environment:
+      - POSTGRES_DB=tez_db
+      - POSTGRES_USER=tez_user
+      - POSTGRES_PASSWORD=tez_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - tez-network
+    restart: unless-stopped
+    profiles:
+      - database
+
+  # Redis for caching (future use)
+  redis:
+    image: redis:7-alpine
+    container_name: tez-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - tez-network
+    restart: unless-stopped
+    profiles:
+      - cache
+
+  # Monitoring with Prometheus (future use)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: tez-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - tez-network
+    restart: unless-stopped
+    profiles:
+      - monitoring
+
+  # Grafana for metrics visualization (future use)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: tez-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - tez-network
+    restart: unless-stopped
+    profiles:
+      - monitoring
+
+volumes:
+  postgres_data:
+  redis_data:
+  grafana_data:
+
+networks:
+  tez-network:
+    driver: bridge

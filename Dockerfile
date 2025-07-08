@@ -1,23 +1,43 @@
-# Використовуємо .NET SDK образ для Linux (для компіляції без WPF)
-FROM mcr.microsoft.com/dotnet/sdk:6.0
+# Multi-stage build for optimized production image
+# Build stage
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+
+WORKDIR /src
+
+# Copy solution and project files
+COPY TEZ_Project.Console.sln .
+COPY TEZ_Project.Console/*.csproj ./TEZ_Project.Console/
+
+# Restore dependencies
+RUN dotnet restore TEZ_Project.Console.sln
+
+# Copy source code
+COPY . .
+
+# Build and publish
+WORKDIR /src/TEZ_Project.Console
+RUN dotnet publish -c Release -o /app/publish --no-restore
+
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/runtime:6.0 AS runtime
+
+# Create non-root user for security
+RUN groupadd -r tezuser && useradd -r -g tezuser tezuser
 
 WORKDIR /app
 
-# Скопіювати Console solution файл
-COPY TEZ_Project.Console.sln .
+# Copy published application
+COPY --from=build /app/publish .
 
-# Скопіювати проектні файли
-COPY TEZ_Project.Console/*.csproj ./TEZ_Project.Console/
+# Create directories for logs and data
+RUN mkdir -p /app/logs /app/data && chown -R tezuser:tezuser /app
 
-# Відновити залежності
-RUN dotnet restore
+# Switch to non-root user
+USER tezuser
 
-# Скопіювати весь код
-COPY . .
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD timeout 10s dotnet TEZ_Project.Console.dll || exit 1
 
-# Скомпілювати Console проект (без WPF залежностей)
-RUN dotnet build TEZ_Project.Console --configuration Release
-
-# Встановити точку входу для Console додатка
-WORKDIR /app/TEZ_Project.Console
-CMD ["dotnet", "run"]
+# Set entry point
+ENTRYPOINT ["dotnet", "TEZ_Project.Console.dll"]

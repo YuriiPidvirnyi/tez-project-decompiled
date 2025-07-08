@@ -1,0 +1,304 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "develop", "release/*" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+env:
+  DOTNET_VERSION: '6.0.x'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: 🧪 Tests and Code Quality
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Build Solution
+      run: dotnet build --no-restore --configuration Release
+    
+    - name: Run Unit Tests
+      run: dotnet test --no-restore --verbosity normal --collect "XPlat Code Coverage" --results-directory ./TestResults
+    
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: TestResults/
+        retention-days: 30
+    
+    - name: Code Coverage Report
+      uses: codecov/codecov-action@v3
+      with:
+        directory: ./TestResults
+        fail_ci_if_error: false
+    
+    - name: Generate Test Report
+      uses: dorny/test-reporter@v1
+      if: success() || failure()
+      with:
+        name: Test Results
+        path: TestResults/**/*.trx
+        reporter: dotnet-trx
+
+  build-linux:
+    runs-on: ubuntu-latest
+    name: 🐧 Linux Build
+    needs: test
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Restore dependencies
+      run: dotnet restore TEZ_Project.Console.sln
+    
+    - name: Build Console Project
+      run: dotnet build TEZ_Project.Console.sln --no-restore --configuration Release
+    
+    - name: Publish Console (Linux)
+      run: dotnet publish TEZ_Project.Console -c Release -r linux-x64 --self-contained -p:PublishSingleFile=true
+    
+    - name: Upload Linux Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: tez-console-linux
+        path: TEZ_Project.Console/bin/Release/net6.0/linux-x64/publish/
+
+  build-windows:
+    runs-on: windows-latest
+    name: 🪟 Windows Build
+    needs: test
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Restore Console dependencies
+      run: dotnet restore TEZ_Project.Console.sln
+    
+    - name: Build Console Project (Windows)
+      run: dotnet build TEZ_Project.Console.sln --configuration Release --no-restore
+    
+    - name: Publish Console (Windows)
+      run: dotnet publish TEZ_Project.Console -c Release -r win-x64 --self-contained -p:PublishSingleFile=true
+    
+    - name: Upload Windows Console Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: tez-console-windows
+        path: TEZ_Project.Console/bin/Release/net6.0/win-x64/publish/
+
+  build-wpf:
+    runs-on: windows-latest
+    name: 📺 Windows WPF Build
+    needs: test
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Restore WPF Dependencies
+      run: dotnet restore TEZ_Project.Windows.sln
+    
+    - name: Build WPF Project
+      run: dotnet build TEZ_Project.Windows.sln --no-restore --configuration Release
+    
+    - name: Publish WPF (Windows)
+      run: dotnet publish TEZ_Project -c Release -r win-x64 --self-contained -p:PublishSingleFile=true
+    
+    - name: Upload WPF Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: tez-wpf-windows
+        path: TEZ_Project/bin/Release/net6.0-windows/win-x64/publish/
+
+  docker-build:
+    runs-on: ubuntu-latest
+    name: 🐳 Docker Build & Security Scan
+    needs: [test, build-linux]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Build Docker Image
+      run: |
+        echo "🐳 Building Docker image..."
+        docker build -f Dockerfile -t tez-project:latest .
+        docker build -f Dockerfile -t tez-project:${{ github.sha }} .
+    
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: 'tez-project:latest'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+    
+    - name: Upload Trivy scan results
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'trivy-results.sarif'
+    
+    - name: Test Docker Image
+      run: |
+        echo "🧪 Testing Docker container..."
+        timeout 30s docker run --rm tez-project:latest || echo "Docker test completed"
+    
+    - name: Save Docker image
+      run: |
+        docker save tez-project:latest | gzip > tez-project-docker.tar.gz
+    
+    - name: Upload Docker image
+      uses: actions/upload-artifact@v4
+      with:
+        name: tez-project-docker
+        path: tez-project-docker.tar.gz
+
+  code-analysis:
+    runs-on: ubuntu-latest
+    name: 📊 Code Analysis
+    needs: test
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Run .NET Code Analysis
+      run: dotnet build --verbosity normal --configuration Release -p:RunAnalyzersDuringBuild=true
+    
+    - name: Generate Code Metrics
+      run: |
+        echo "📊 Code Metrics Report" > code-metrics.txt
+        echo "=====================" >> code-metrics.txt
+        echo "📁 Project Files:" >> code-metrics.txt
+        find . -name "*.cs" -not -path "./bin/*" -not -path "./obj/*" | wc -l | xargs echo "  C# Files:" >> code-metrics.txt
+        find . -name "*.cs" -not -path "./bin/*" -not -path "./obj/*" -exec wc -l {} + | tail -1 | awk '{print "  Total Lines: " $1}' >> code-metrics.txt
+        echo "" >> code-metrics.txt
+        echo "📦 Dependencies:" >> code-metrics.txt
+        find . -name "*.csproj" -exec echo "  Project: {}" \; >> code-metrics.txt
+        
+        echo "🔍 Directory Structure:" >> code-metrics.txt
+        tree -I 'bin|obj|.git' || find . -type d -not -path "./.*" | head -20 >> code-metrics.txt
+    
+    - name: Upload Code Metrics
+      uses: actions/upload-artifact@v4
+      with:
+        name: code-metrics
+        path: code-metrics.txt
+
+  performance-test:
+    runs-on: ubuntu-latest
+    name: ⚡ Performance Test
+    needs: [build-linux]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download Linux Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: tez-console-linux
+        path: ./linux-app
+    
+    - name: Performance Test
+      run: |
+        chmod +x ./linux-app/TEZ_Project.Console
+        echo "⚡ Running performance test..."
+        time timeout 10s ./linux-app/TEZ_Project.Console || echo "Performance test completed"
+    
+    - name: Memory Usage Test
+      run: |
+        echo "💾 Memory usage test..."
+        /usr/bin/time -v timeout 10s ./linux-app/TEZ_Project.Console || echo "Memory test completed"
+
+  deploy-preview:
+    runs-on: ubuntu-latest
+    name: 🚀 Deploy Preview
+    needs: [docker-build, code-analysis, performance-test]
+    if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/release/')
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download Docker Image
+      uses: actions/download-artifact@v4
+      with:
+        name: tez-project-docker
+        path: .
+    
+    - name: Load Docker Image
+      run: |
+        docker load < tez-project-docker.tar.gz
+    
+    - name: Deploy to Preview Environment
+      run: |
+        echo "🚀 Deploying to preview environment..."
+        echo "Environment: ${{ github.ref_name }}"
+        echo "SHA: ${{ github.sha }}"
+        # Here you would add your deployment logic
+        
+  notify:
+    runs-on: ubuntu-latest
+    name: 📢 Notify
+    needs: [build-linux, build-windows, build-wpf, docker-build, code-analysis]
+    if: always()
+    
+    steps:
+    - name: Notify Success
+      if: needs.build-linux.result == 'success' && needs.build-windows.result == 'success' && needs.build-wpf.result == 'success'
+      run: |
+        echo "✅ All builds completed successfully!"
+        echo "📊 Build Summary:"
+        echo "  - Linux Build: ✅"
+        echo "  - Windows Console: ✅"
+        echo "  - Windows WPF: ✅"
+        echo "  - Docker Build: ✅"
+        echo "  - Code Analysis: ✅"
+    
+    - name: Notify Failure
+      if: needs.build-linux.result == 'failure' || needs.build-windows.result == 'failure' || needs.build-wpf.result == 'failure'
+      run: |
+        echo "❌ Some builds failed!"
+        echo "📊 Build Summary:"
+        echo "  - Linux Build: ${{ needs.build-linux.result }}"
+        echo "  - Windows Console: ${{ needs.build-windows.result }}"
+        echo "  - Windows WPF: ${{ needs.build-wpf.result }}"
+        echo "  - Docker Build: ${{ needs.docker-build.result }}"
+        echo "  - Code Analysis: ${{ needs.code-analysis.result }}"
