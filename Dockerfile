@@ -3,12 +3,11 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0
 
 WORKDIR /app
 
-# Скопіювати solution файл
-COPY *.sln .
+# Скопіювати Console solution файл
+COPY TEZ_Project.Console.sln .
 
 # Скопіювати проектні файли
-COPY TEZ_Project.Common/*.csproj ./TEZ_Project.Common/
-COPY TEZ_Project/*.csproj ./TEZ_Project/
+COPY TEZ_Project.Console/*.csproj ./TEZ_Project.Console/
 
 # Відновити залежності
 RUN dotnet restore
@@ -16,8 +15,9 @@ RUN dotnet restore
 # Скопіювати весь код
 COPY . .
 
-# Спробувати скомпілювати Common проект (без WPF залежностей)
-RUN dotnet build TEZ_Project.Common --configuration Release || echo "Common project build failed"
+# Скомпілювати Console проект (без WPF залежностей)
+RUN dotnet build TEZ_Project.Console --configuration Release
 
-# Команда для інтерактивного режиму
-CMD ["/bin/bash"]
+# Встановити точку входу для Console додатка
+WORKDIR /app/TEZ_Project.Console
+CMD ["dotnet", "run"]
