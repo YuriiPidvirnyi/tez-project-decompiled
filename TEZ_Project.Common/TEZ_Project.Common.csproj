@@ -40,6 +40,7 @@
     <Compile Include="TEZ_Project\Common\Data\Role.cs" />
     <Compile Include="TEZ_Project\Common\Data\BaseNameDto.cs" />
     <Compile Include="TEZ_Project\Common\Data\CustomProductModel.cs" />
+    <Compile Include="TEZ_Project\Common\Data\OrderAction.cs" />
     <Compile Include="TEZ_Project\Common\Data\Entities\**\*.cs" />
   </ItemGroup>
   
