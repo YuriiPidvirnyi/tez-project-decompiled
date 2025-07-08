@@ -13,13 +13,5 @@ namespace TEZ_Project
         {
             InitializeComponent();
         }
-
-        private void InitializeComponent()
-        {
-            // Stub implementation
-            this.Title = "TEZ Project - Stub Window";
-            this.Width = 800;
-            this.Height = 600;
-        }
     }
 }
