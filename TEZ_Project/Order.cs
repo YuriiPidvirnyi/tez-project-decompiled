@@ -182,7 +182,7 @@ public class Order : Window, IComponentConnector, IStyleConnector
 			return;
 		}
 		MessageBoxResult val2 = MessageBox.Show("Ви дійсно хочете видалити замовлення?", "Підтвердження видалення", (MessageBoxButton)4);
-		if (!(((object)(MessageBoxResult)(ref val2)).ToString() == "Yes"))
+		if (!(val2.ToString() == "Yes"))
 		{
 			return;
 		}

@@ -8086,7 +8086,7 @@ public class MainWindow : Window, IComponentConnector
 					continue;
 				}
 				MessageBoxResult val6 = MessageBox.Show($"Кут 'бета' = {betaGradus}. Ширина верхньої частини зонта (b) має бути рівним {i} щоб кут 'бета' був рівним 45 градусів. Змінити параметр 'b'?", "Підтвердження зміни ширини верхньої частини зонта", (MessageBoxButton)4);
-				if (((object)(MessageBoxResult)(ref val6)).ToString() == "Yes")
+				if (val6.ToString() == "Yes")
 				{
 					product_ZontOstrivnyyTyp.b = i;
 					textBox_b_ZontOstrivnyyTyp1.Text = i.ToString();
@@ -17181,7 +17181,7 @@ public class MainWindow : Window, IComponentConnector
 			return;
 		}
 		MessageBoxResult val = MessageBox.Show("Ви дійсно хочете видалити вибрані вироби зі списку?", "Підтвердження видалення", (MessageBoxButton)4);
-		if (((object)(MessageBoxResult)(ref val)).ToString() == "Yes")
+		if (val.ToString() == "Yes")
 		{
 			RemoveSelectedProducts();
 		}
@@ -18770,7 +18770,7 @@ public class MainWindow : Window, IComponentConnector
 		if (!string.IsNullOrEmpty(text))
 		{
 			SortDescription item = default(SortDescription);
-			((SortDescription)(ref item))._002Ector(text, (ListSortDirection)0);
+			item = new SortDescription(text, ListSortDirection.Ascending);
 			((Collection<SortDescription>)(object)((CollectionView)((ItemsControl)List).Items).SortDescriptions).Add(item);
 			((CollectionView)((ItemsControl)List).Items).Refresh();
 		}

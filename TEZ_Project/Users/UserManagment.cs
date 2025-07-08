@@ -94,7 +94,7 @@ public class UserManagment : Window, IComponentConnector, IStyleConnector
 		//IL_0011: Unknown result type (might be due to invalid IL or missing references)
 		//IL_0095: Unknown result type (might be due to invalid IL or missing references)
 		MessageBoxResult val = MessageBox.Show("Ви дійсно хочете видалити користувача?", "Підтвердження видалення", (MessageBoxButton)4);
-		if (!(((object)(MessageBoxResult)(ref val)).ToString() == "Yes"))
+		if (!(val.ToString() == "Yes"))
 		{
 			return;
 		}
@@ -120,7 +120,7 @@ public class UserManagment : Window, IComponentConnector, IStyleConnector
 		//IL_0011: Unknown result type (might be due to invalid IL or missing references)
 		//IL_009c: Unknown result type (might be due to invalid IL or missing references)
 		MessageBoxResult val = MessageBox.Show("Ви дійсно хочете скинути пароль?", "Підтвердження скидання", (MessageBoxButton)4);
-		if (!(((object)(MessageBoxResult)(ref val)).ToString() == "Yes"))
+		if (!(val.ToString() == "Yes"))
 		{
 			return;
 		}
