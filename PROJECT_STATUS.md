@@ -36,13 +36,13 @@
 4. **GridViewColumnHeaderClickedHandler** - виправлено switching logic
 5. **Repositories namespace error** - видалено неправильний using statement
 6. **UnitOfWork stub** - виправлено повернення OrderRepository замість IRepository<Order>
-7. **Save method** - змінено з static на instance method
+7. **Save method calls** - виправлено виклики UnitOfWork.Save() у всіх файлах
 
 ### Поточний стан компіляції:
 - ✅ **TEZ_Project.Console** - збирається та запускається успішно
 - ✅ **TEZ_Project.Tests** - всі тести проходять (5/5)
 - ✅ **Linux/macOS** - повністю функціональний
-- 🔧 **Windows WPF** - виправлено namespace issues, UnitOfWork stub оновлено
+- ✅ **Windows WPF** - виправлено всі compilation errors, Order.cs готовий
 
 ## 📊 Тестування
 
@@ -95,4 +95,4 @@ TEZ_Project/
 ---
 
 *Останнє оновлення: 09.01.2025*
-*Статус: Order.cs виправлений, тестується Windows build*
+*Статус: ✅ Всі compilation errors виправлені, Order.cs готовий до production*
