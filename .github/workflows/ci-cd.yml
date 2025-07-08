@@ -119,7 +119,7 @@ jobs:
 
   build-windows:
     runs-on: windows-latest
-    name: 🪟 Windows Build
+    name: 🪟 Windows Console Build
     needs: test
     
     steps:
@@ -394,7 +394,7 @@ jobs:
         echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
         echo "| 🧪 Tests & Quality | ${{ needs.test.result == 'success' && '✅ Success' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
         echo "| 🐧 Linux Build | ${{ needs.build-linux.result == 'success' && '✅ Success' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
-        echo "| 🪟 Windows Console | ${{ needs.build-windows.result == 'success' && '✅ Success' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| 🪟 Windows Console Build | ${{ needs.build-windows.result == 'success' && '✅ Success' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
         echo "| 📺 Windows WPF | ${{ needs.build-wpf.result == 'success' && '✅ Success' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
         echo "| 🐳 Docker Build | ${{ needs.docker-build.result == 'success' && '✅ Success' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
         echo "| 📊 Code Analysis | ${{ needs.code-analysis.result == 'success' && '✅ Success' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
