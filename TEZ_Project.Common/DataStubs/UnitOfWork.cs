@@ -62,17 +62,37 @@ namespace TEZ_Project.Common.Data
 
     public class CustomProductRepository : IRepository<CustomProduct>
     {
-        private static List<CustomProduct> _products = new List<CustomProduct>();
+private static List<CustomProduct> _products = new List<CustomProduct>();
+
+public Task<ICollection<CustomProduct>> GetAllAsync()
+{
+    return Task.FromResult<ICollection<CustomProduct>>(_products);
+}
 
         public IEnumerable<CustomProduct> GetAll()
         {
             return _products;
         }
 
-        public void Add(CustomProduct entity)
-        {
-            _products.Add(entity);
-        }
+public CustomProduct GetByName(string name)
+{
+    return _products.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+}
+
+public void Insert(CustomProduct entity)
+{
+    _products.Add(entity);
+}
+
+public void DeleteCustomProductConsts(List<CustomProductConsts> consts)
+{
+    // Logic to remove related CustomProductConsts
+}
+
+public void Add(CustomProduct entity)
+{
+    _products.Add(entity);
+}
 
         public void Delete(CustomProduct entity)
         {
