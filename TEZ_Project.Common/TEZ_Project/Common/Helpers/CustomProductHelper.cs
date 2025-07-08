@@ -12,7 +12,15 @@ public static class CustomProductHelper
 	public static async Task<ICollection<CustomProductModel>> GetAllCustomProductsAsync()
 	{
 		using UnitOfWork unit = new UnitOfWork();
-		return await unit.CustomProductRepository.GetAllAsync();
+		var products = await unit.CustomProductRepository.GetAllAsync();
+		return products.Select(p => new CustomProductModel
+		{
+			CustomProductId = p.Id,
+			Name = p.Name,
+			CreatedBy = p.CreatedBy,
+			LastUpdatedBy = p.LastUpdatedBy,
+			LastUpdatedDate = p.LastUpdatedDate
+		}).ToList();
 	}
 
 	public static void AddNewCustomProduct(string name, string userName, int[] constIds, double[] meterialSpendings)
@@ -92,7 +100,7 @@ public static class CustomProductHelper
 	public static List<string> GetCustomProductNames()
 	{
 		using UnitOfWork unitOfWork = new UnitOfWork();
-		return unitOfWork.CustomProductRepository.GetAllNames();
+		return unitOfWork.CustomProductRepository.GetAllNames().ToList();
 	}
 
 	public static (string[], double[]) GetCustomProductMaterialNamesAndSpendings(string customProductName)
