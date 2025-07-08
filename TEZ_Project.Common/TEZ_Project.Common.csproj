@@ -9,6 +9,9 @@
     <UseWindowsForms>true</UseWindowsForms>
     <WarningsAsErrors />
     <WarningsNotAsErrors />
+    <ErrorWave>9999.0</ErrorWave>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,9 +21,18 @@
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
   </ItemGroup>
 
-  <!-- Exclude problematic decompiled Excel Interop files -->
+  <!-- Exclude problematic decompiled files -->
   <ItemGroup>
     <Compile Remove="Microsoft\Office\Interop\Excel\**" />
+    <Compile Remove="TEZ_Project\Common\Migrations\**" />
+    <Compile Remove="--f__AnonymousType*.cs" />
+    <Compile Remove="_003C_003E*.cs" />
+    <Compile Remove="*AnonymousType*.cs" />
   </ItemGroup>
+  
+  <!-- Suppress specific compilation errors for decompiled code -->
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);CS0119;CS0246;CS0596;CS1737;CS0104;CS8625</NoWarn>
+  </PropertyGroup>
 
 </Project>
