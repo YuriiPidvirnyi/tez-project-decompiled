@@ -30,6 +30,7 @@
   <ItemGroup>
     <Compile Include="TEZ_Project\Common\**\*.cs" 
              Exclude="TEZ_Project\Common\Data\**;TEZ_Project\Common\Migrations\**" />
+    <Compile Include="TEZ_Project\Consts2.cs" />
   </ItemGroup>
   
   <!-- Include working Data files from original location -->
