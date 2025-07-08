@@ -1,0 +1,24 @@
+# Dockerfile для запуску WPF додатку у Windows контейнері
+FROM mcr.microsoft.com/dotnet/sdk:6.0-windowsservercore-ltsc2019
+
+WORKDIR /app
+
+# Скопіювати проектні файли
+COPY *.sln .
+COPY TEZ_Project/*.csproj ./TEZ_Project/
+COPY TEZ_Project.Common/*.csproj ./TEZ_Project.Common/
+
+# Відновити залежності
+RUN dotnet restore
+
+# Скопіювати весь код
+COPY . .
+
+# Скомпілювати проект
+RUN dotnet build --configuration Release
+
+# Встановити робочу директорію для запуску
+WORKDIR /app/TEZ_Project
+
+# Команда для запуску
+CMD ["dotnet", "run", "--configuration", "Release"]

@@ -1,0 +1,35 @@
+namespace TEZ_Project.Common.Enums;
+
+public enum ZontVytyazhnyySimple_ImageType
+{
+	Simple,
+	SimpleZF,
+	V100,
+	V110,
+	V111,
+	V112,
+	V120,
+	V121,
+	V122,
+	V100ZF,
+	V110ZF,
+	V111ZF,
+	V112ZF,
+	V120ZF,
+	V121ZF,
+	V122ZF,
+	V200,
+	V210,
+	V211,
+	V212,
+	V220,
+	V221,
+	V222,
+	V200ZF,
+	V210ZF,
+	V211ZF,
+	V212ZF,
+	V220ZF,
+	V221ZF,
+	V222ZF
+}
