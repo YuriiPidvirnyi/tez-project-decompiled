@@ -17,6 +17,8 @@ using TEZ_Project.Common.Data;
 using TEZ_Project.Common.Data.Entities;
 using static TEZ_Project.Common.Data.OrderAction;
 using log4net;
+using TEZ_Project.Common.Data.Repositories;
+using TEZ_Project.Common.Data.Entities.Users;
 
 namespace TEZ_Project;
 
@@ -89,7 +91,7 @@ public class Order : Window, IComponentConnector, IStyleConnector
 			else if (orderModel != null)
 			{
 				SelectedOrderId = orderModel.OrderId;
-				OrderAction = OrderAction.Edit;
+			OrderAction = TEZ_Project.Common.Data.OrderAction.Edit;
 				((Window)this).Close();
 			}
 		}
@@ -167,7 +169,7 @@ public class Order : Window, IComponentConnector, IStyleConnector
 
 	private void NewOrder_Click(object sender, RoutedEventArgs e)
 	{
-		OrderAction = OrderAction.New;
+		OrderAction = TEZ_Project.Common.Data.OrderAction.New;
 		((Window)this).Close();
 	}
 
@@ -215,7 +217,7 @@ public class Order : Window, IComponentConnector, IStyleConnector
 		else if (orderModel != null)
 		{
 			SelectedOrderId = orderModel.OrderId;
-			OrderAction = OrderAction.Edit;
+			OrderAction = TEZ_Project.Common.Data.OrderAction.Edit;
 			((Window)this).Close();
 		}
 	}
@@ -226,7 +228,7 @@ public class Order : Window, IComponentConnector, IStyleConnector
 		if (((FrameworkElement)val).DataContext is OrderModel orderModel)
 		{
 			SelectedOrderId = orderModel.OrderId;
-			OrderAction = OrderAction.Template;
+			OrderAction = TEZ_Project.Common.Data.OrderAction.Template;
 			((Window)this).Close();
 		}
 	}
@@ -237,7 +239,7 @@ public class Order : Window, IComponentConnector, IStyleConnector
 		SelectedOrderIds = Enumerable.ToList<int>(Enumerable.Select<OrderModel, int>(Enumerable.Where<OrderModel>((IEnumerable<OrderModel>)Orders, (Func<OrderModel, bool>)((OrderModel o) => o.IsSelected)), (Func<OrderModel, int>)((OrderModel o) => o.OrderId)));
 		if (Enumerable.Any<int>((IEnumerable<int>)SelectedOrderIds))
 		{
-			OrderAction = OrderAction.TemplatesBulk;
+			OrderAction = TEZ_Project.Common.Data.OrderAction.TemplatesBulk;
 			((Window)this).Close();
 		}
 		else
