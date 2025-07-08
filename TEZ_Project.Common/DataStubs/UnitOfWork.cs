@@ -59,7 +59,6 @@ namespace TEZ_Project.Common.Data
             _consts.Remove(entity);
         }
     }
-    }
 
     public class CustomProductRepository : IRepository<CustomProduct>
     {
