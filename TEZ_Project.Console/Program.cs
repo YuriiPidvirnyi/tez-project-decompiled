@@ -1,11 +1,10 @@
 using System;
-using System.Threading.Tasks;
 
 namespace TEZ_Project.Console
 {
     class Program
     {
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
             System.Console.WriteLine("=== TEZ Project Console Test ===");
             System.Console.WriteLine("Тестування логіки декомпільованого проекту...");
