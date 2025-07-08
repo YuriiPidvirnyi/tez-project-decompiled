@@ -39,10 +39,10 @@ jobs:
         name: tez-console-linux
         path: TEZ_Project.Console/bin/Release/net6.0/linux-x64/publish/
 
-  # Windows WPF Build (тільки якщо є Windows runner)
-  windows-wpf:
+  # Windows Console Build (тестування на Windows)
+  windows-console:
     runs-on: windows-latest
-    name: 🪟 Windows WPF Build
+    name: 🪟 Windows Console Build
     
     steps:
     - uses: actions/checkout@v4
@@ -52,26 +52,20 @@ jobs:
       with:
         dotnet-version: 6.0.x
         
-    - name: Restore dependencies (All Projects)
-      run: dotnet restore TEZ_Project.sln
-      
-    - name: Build Console Project
-      run: dotnet build TEZ_Project.Console --no-restore --configuration Release
+    - name: Build Console Project (Windows)
+      run: dotnet build TEZ_Project.Console --configuration Release
       
     - name: Test Console Project  
       run: dotnet run --project TEZ_Project.Console --configuration Release
       
-    - name: Build WPF Project
-      run: dotnet build TEZ_Project --no-restore --configuration Release
+    - name: Publish Console (Windows)
+      run: dotnet publish TEZ_Project.Console -c Release -r win-x64 --self-contained
       
-    - name: Publish WPF (Windows)
-      run: dotnet publish TEZ_Project -c Release -r win-x64 --self-contained
-      
-    - name: Upload WPF Artifacts
+    - name: Upload Windows Console Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: tez-wpf-windows
-        path: TEZ_Project/bin/Release/net6.0-windows/win-x64/publish/
+        name: tez-console-windows
+        path: TEZ_Project.Console/bin/Release/net6.0/win-x64/publish/
 
   # Common Library Analysis
   analyze-common:
@@ -106,7 +100,7 @@ jobs:
   docker-build:
     runs-on: ubuntu-latest
     name: 🐳 Docker Build
-    needs: [linux-console]
+    needs: [linux-console, windows-console]
     
     steps:
     - uses: actions/checkout@v4
