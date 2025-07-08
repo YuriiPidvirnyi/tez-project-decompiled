@@ -1234,12 +1234,12 @@ public static class Consts2
 		{
 			unitOfWork.ConstRepository.Delete(item);
 		}
-		unitOfWork.ReseedTable("[dbo].[Consts]");
+		UnitOfWork.ReseedTable("[dbo].[Consts]");
 		foreach (Const item2 in (IEnumerable<Const>)val)
 		{
 			unitOfWork.ConstRepository.Add(item2);
 		}
-		unitOfWork.Save();
+		UnitOfWork.Save();
 	}
 
 	public static void FillDataBaseWithNotAlreadyExistingItems()
@@ -1256,7 +1256,7 @@ public static class Consts2
 		{
 			unitOfWork.ConstRepository.Add(item);
 		}
-		unitOfWork.Save();
+		UnitOfWork.Save();
 	}
 
 	public static void LoadConstsFromDb()

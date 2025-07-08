@@ -47,7 +47,7 @@ public static class CustomProductHelper
 			});
 		}
 		unitOfWork.CustomProductRepository.Insert(customProduct);
-		unitOfWork.Save();
+		UnitOfWork.Save();
 	}
 
 	public static void UpdateCustomProduct(string key, string name, string userName, int[] constIds, double[] meterialSpendings)
@@ -87,14 +87,14 @@ public static class CustomProductHelper
 				});
 			}
 		}
-		unitOfWork.Save();
+		UnitOfWork.Save();
 	}
 
 	public static void DeleteCustomProduct(int id)
 	{
 		using UnitOfWork unitOfWork = new UnitOfWork();
 		unitOfWork.CustomProductRepository.DeleteById(id);
-		unitOfWork.Save();
+		UnitOfWork.Save();
 	}
 
 	public static List<string> GetCustomProductNames()
