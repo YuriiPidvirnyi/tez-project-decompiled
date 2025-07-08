@@ -1,5 +1,6 @@
 using System;
 using TEZ_Project.Common.Helpers;
+using TEZ_Project.Common.Entities;
 
 namespace TEZ_Project.Common.Products;
 
