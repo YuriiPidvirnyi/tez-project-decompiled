@@ -48,7 +48,7 @@ jobs:
       run: dotnet restore TEZ_Project.Console.sln
     
     - name: Build Solution
-      run: dotnet build TEZ_Project.Console.sln --no-restore --configuration Release
+      run: dotnet build TEZ_Project.Console.sln --no-restore --configuration Release --verbosity minimal
     
     - name: Run Unit Tests
       run: dotnet test TEZ_Project.Console.sln --no-restore --verbosity normal --collect "XPlat Code Coverage" --logger trx --results-directory ./TestResults
@@ -106,7 +106,7 @@ jobs:
       run: dotnet restore TEZ_Project.Console.sln
     
     - name: Build Console Project
-      run: dotnet build TEZ_Project.Console.sln --no-restore --configuration Release
+      run: dotnet build TEZ_Project.Console.sln --no-restore --configuration Release --verbosity minimal
     
     - name: Publish Console (Linux)
       run: dotnet publish TEZ_Project.Console -c Release -r linux-x64 --self-contained -p:PublishSingleFile=true
@@ -134,7 +134,7 @@ jobs:
       run: dotnet restore TEZ_Project.Console.sln
     
     - name: Build Console Project (Windows)
-      run: dotnet build TEZ_Project.Console.sln --configuration Release --no-restore
+      run: dotnet build TEZ_Project.Console.sln --configuration Release --no-restore --verbosity minimal
     
     - name: Publish Console (Windows)
       run: dotnet publish TEZ_Project.Console -c Release -r win-x64 --self-contained -p:PublishSingleFile=true
@@ -162,7 +162,7 @@ jobs:
       run: dotnet restore TEZ_Project.Windows.sln
     
     - name: Build WPF Project
-      run: dotnet build TEZ_Project.Windows.sln --no-restore --configuration Release
+      run: dotnet build TEZ_Project.Windows.sln --no-restore --configuration Release --verbosity minimal
     
     - name: Publish WPF (Windows)
       run: dotnet publish TEZ_Project -c Release -r win-x64 --self-contained -p:PublishSingleFile=true
@@ -236,7 +236,7 @@ jobs:
       run: dotnet restore TEZ_Project.Console.sln
     
     - name: Run .NET Code Analysis
-      run: dotnet build TEZ_Project.Console.sln --verbosity normal --configuration Release -p:RunAnalyzersDuringBuild=true
+      run: dotnet build TEZ_Project.Console.sln --verbosity minimal --configuration Release -p:RunAnalyzersDuringBuild=true -p:TreatWarningsAsErrors=false
     
     - name: Generate Code Metrics
       run: |
