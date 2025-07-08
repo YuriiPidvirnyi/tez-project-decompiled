@@ -1,0 +1,100 @@
+name: Release Build
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag'
+        required: true
+        default: 'v1.0.0'
+
+jobs:
+  release-build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            runtime: linux-x64
+            project: TEZ_Project.Console
+            artifact: tez-console-linux
+            icon: 🐧
+          - os: windows-latest
+            runtime: win-x64
+            project: TEZ_Project
+            artifact: tez-wpf-windows
+            icon: 🪟
+    
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.icon }} Release ${{ matrix.runtime }}
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build Project
+      run: dotnet build ${{ matrix.project }} --configuration Release --no-restore
+      
+    - name: Publish Application
+      run: dotnet publish ${{ matrix.project }} -c Release -r ${{ matrix.runtime }} --self-contained -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
+      
+    - name: Create Archive
+      shell: bash
+      run: |
+        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+          cd ${{ matrix.project }}/bin/Release/*/win-x64/publish/
+          7z a -tzip ../../../../../../${{ matrix.artifact }}.zip *
+        else
+          cd ${{ matrix.project }}/bin/Release/*/linux-x64/publish/
+          tar -czf ../../../../../../${{ matrix.artifact }}.tar.gz *
+        fi
+      
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ${{ matrix.artifact }}.${{ matrix.os == 'windows-latest' && 'zip' || 'tar.gz' }}
+        asset_name: ${{ matrix.artifact }}.${{ matrix.os == 'windows-latest' && 'zip' || 'tar.gz' }}
+        asset_content_type: application/${{ matrix.os == 'windows-latest' && 'zip' || 'gzip' }}
+
+  create-changelog:
+    runs-on: ubuntu-latest
+    name: 📝 Create Changelog
+    if: github.event_name == 'release'
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        
+    - name: Generate Changelog
+      run: |
+        echo "# Changelog for ${{ github.event.release.tag_name }}" > CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        echo "## 🚀 Features" >> CHANGELOG.md
+        git log --oneline --grep="feat" $(git describe --tags --abbrev=0 HEAD^)..HEAD >> CHANGELOG.md || echo "No new features" >> CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        echo "## 🐛 Bug Fixes" >> CHANGELOG.md  
+        git log --oneline --grep="fix" $(git describe --tags --abbrev=0 HEAD^)..HEAD >> CHANGELOG.md || echo "No bug fixes" >> CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        echo "## 📊 Statistics" >> CHANGELOG.md
+        echo "- Total commits: $(git rev-list --count HEAD)" >> CHANGELOG.md
+        echo "- C# files: $(find . -name '*.cs' | wc -l)" >> CHANGELOG.md
+        echo "- Total lines: $(find . -name '*.cs' -exec wc -l {} + | tail -1 | awk '{print $1}')" >> CHANGELOG.md
+        
+    - name: Upload Changelog
+      uses: actions/upload-artifact@v3
+      with:
+        name: changelog
+        path: CHANGELOG.md
