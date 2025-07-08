@@ -14,16 +14,3 @@ namespace TEZ_Project.Common.Data
         }
     }
 }
-
-namespace System.Windows
-{
-    public static class Application
-    {
-        public static void DoEvents()
-        {
-            // Stub implementation for Application.DoEvents
-            // In real WPF, this would process pending messages
-            Thread.Sleep(1);
-        }
-    }
-}
