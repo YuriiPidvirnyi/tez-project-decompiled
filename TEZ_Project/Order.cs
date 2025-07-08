@@ -11,6 +11,8 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Markup;
+using ListView = System.Windows.Controls.ListView;
+using ComboBox = System.Windows.Controls.ComboBox;
 using TEZ_Project.Common.Data;
 using TEZ_Project.Common.Data.Entities;
 using log4net;
