@@ -56,15 +56,15 @@ public class BasicTests
         var expected = "async result";
         
         // Act
-        var result = await GetAsyncResult();
+        var result = await GetAsyncResult().ConfigureAwait(false);
         
         // Assert
         result.Should().Be(expected);
     }
     
-    private async Task<string> GetAsyncResult()
+    private static async Task<string> GetAsyncResult()
     {
-        await Task.Delay(1); // Simulate async work
+        await Task.Delay(1).ConfigureAwait(false); // Simulate async work
         return "async result";
     }
 }

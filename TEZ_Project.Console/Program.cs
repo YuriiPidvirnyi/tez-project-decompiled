@@ -21,10 +21,16 @@ namespace TEZ_Project.Console
                 System.Console.WriteLine("\nНатисніть Enter для виходу...");
                 System.Console.ReadLine();
             }
+            catch (InvalidOperationException ex)
+            {
+                System.Console.WriteLine($"❌ Помилка операції: {ex.Message}");
+                System.Console.WriteLine($"Стек: {ex.StackTrace}");
+            }
             catch (Exception ex)
             {
-                System.Console.WriteLine($"❌ Помилка: {ex.Message}");
+                System.Console.WriteLine($"❌ Загальна помилка: {ex.Message}");
                 System.Console.WriteLine($"Стек: {ex.StackTrace}");
+                throw; // Перекидаємо exception для подальшої обробки
             }
         }
     }
