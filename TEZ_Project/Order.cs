@@ -288,45 +288,27 @@ public class Order : Window, IComponentConnector, IStyleConnector
 
 	private void GridViewColumnHeaderClickedHandler(object sender, RoutedEventArgs e)
 	{
-		//IL_001d: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0022: Unknown result type (might be due to invalid IL or missing references)
-		if (!(e.OriginalSource is GridViewColumnHeader))
+		if (!(e.OriginalSource is GridViewColumnHeader header))
 		{
 			return;
 		}
-		GridViewColumnHeader val = (GridViewColumnHeader)e.OriginalSource;
-		object obj;
-		if ((int)val == 0)
-		{
-			obj = null;
-		}
-		else
-		{
-			GridViewColumn column = val.Column;
-			obj = ((column == null) ? null : column.Header?.ToString());
-		}
-		string text = (string)obj;
-		if (string.IsNullOrEmpty(text))
+
+		var columnText = header.Column.Header?.ToString();
+		if (string.IsNullOrEmpty(columnText))
 		{
 			return;
 		}
-		Func<OrderModel, string> func = null;
-		string text2 = text;
-		string text3 = text2;
-		if (!(text3 == "Код замовлення"))
+
+		Func<OrderModel, string> keySelector = columnText switch
 		{
-			if (text3 == "Контрагент")
-			{
-				func = (OrderModel o) => o.Contragent;
-			}
-		}
-		else
+			"Код замовлення" => o => o.Code,
+			"Контрагент" => o => o.Contragent,
+			_ => null
+		};
+
+		if (keySelector != null)
 		{
-			func = (OrderModel o) => o.Code;
-		}
-		if (func != null)
-		{
-			PopulateListView(func);
+			PopulateListView(keySelector);
 		}
 	}
 

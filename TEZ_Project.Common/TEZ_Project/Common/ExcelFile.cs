@@ -58,6 +58,7 @@ public class ExcelFile
 
 	public void OpenExcel()
 	{
+#if WINDOWS
 		myExcelApplication = null;
 		myExcelApplication = (Microsoft.Office.Interop.Excel.Application)Activator.CreateInstance(Marshal.GetTypeFromCLSID(new Guid("00024500-0000-0000-C000-000000000046")));
 		myExcelApplication.DisplayAlerts = false;
@@ -66,6 +67,7 @@ public class ExcelFile
 		int count = myExcelApplication.Workbooks.Count;
 		myExcelWorkSheet = (Worksheet)(dynamic)myExcelWorkbook.Worksheets[1];
 		int count2 = myExcelWorkbook.Worksheets.Count;
+#endif
 	}
 
 	public void MakeSpysannya(IEnumerable<IProduct> products, GlobalParameter globalParameter, bool isFor1C = false)
@@ -101,7 +103,7 @@ public class ExcelFile
 		num2 = 1;
 		foreach (IProduct product2 in products)
 		{
-			range = GetHeaderSpysannya(num2, product2.Name, product2.Amount.ToString());
+			range = GetHeaderSpysannya(num2, product2.Name, product2.Amount.ToString(System.Globalization.CultureInfo.InvariantCulture));
 			destination = ((_Worksheet)myExcelWorkSheet).get_Range((object)$"B{num}:K{num + 4}", Type.Missing);
 			range.Copy(destination);
 			num += 4;

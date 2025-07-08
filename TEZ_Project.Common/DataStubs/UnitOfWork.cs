@@ -10,12 +10,16 @@ namespace TEZ_Project.Common.Data
     {
         public IRepository<Const> ConstRepository { get; private set; }
 
-        public IRepository<CustomProduct> CustomProductRepository { get; private set; }
+    public IRepository<CustomProduct> CustomProductRepository { get; private set; }
+    public IRepository<User> UserRepository { get; private set; }
+    public IRepository<Order> OrderRepository { get; private set; }
 
         public UnitOfWork()
         {
             ConstRepository = new ConstRepository();
             CustomProductRepository = new CustomProductRepository();
+            UserRepository = new UserRepository();
+            OrderRepository = new OrderRepository();
         }
 
         public void Save()
@@ -45,6 +49,9 @@ namespace TEZ_Project.Common.Data
         void Insert(T entity);
         void DeleteById(int id);
         void DeleteCustomProductConsts(List<CustomProductConsts> consts);
+        T GetById(int id);
+        void Update(T entity);
+        Task<ICollection<T>> GetOrdersAsync(DateTime? dateFrom, DateTime? dateTo);
     }
 
     public class ConstRepository : IRepository<Const>
@@ -97,6 +104,26 @@ namespace TEZ_Project.Common.Data
         {
             // Stub implementation for Const repository
         }
+
+        public Const GetById(int id)
+        {
+            return _consts.FirstOrDefault(c => c.Id == id);
+        }
+
+        public void Update(Const entity)
+        {
+            var existing = _consts.FirstOrDefault(c => c.Id == entity.Id);
+            if (existing != null)
+            {
+                var index = _consts.IndexOf(existing);
+                _consts[index] = entity;
+            }
+        }
+
+        public Task<ICollection<Const>> GetOrdersAsync(DateTime? dateFrom, DateTime? dateTo)
+        {
+            return Task.FromResult<ICollection<Const>>(_consts);
+        }
     }
 
     public class CustomProductRepository : IRepository<CustomProduct>
@@ -148,6 +175,182 @@ public void Add(CustomProduct entity)
         public void Delete(CustomProduct entity)
         {
             _products.Remove(entity);
+        }
+
+        public CustomProduct GetById(int id)
+        {
+            return _products.FirstOrDefault(p => p.Id == id);
+        }
+
+        public void Update(CustomProduct entity)
+        {
+            var existing = _products.FirstOrDefault(p => p.Id == entity.Id);
+            if (existing != null)
+            {
+                var index = _products.IndexOf(existing);
+                _products[index] = entity;
+            }
+        }
+
+        public Task<ICollection<CustomProduct>> GetOrdersAsync(DateTime? dateFrom, DateTime? dateTo)
+        {
+            return Task.FromResult<ICollection<CustomProduct>>(_products);
+        }
+    }
+
+    public class UserRepository : IRepository<User>
+    {
+        private static List<User> _users = new List<User>();
+
+        public IEnumerable<User> GetAll()
+        {
+            return _users;
+        }
+
+        public void Add(User entity)
+        {
+            _users.Add(entity);
+        }
+
+        public void Delete(User entity)
+        {
+            _users.Remove(entity);
+        }
+
+        public Task<ICollection<User>> GetAllAsync()
+        {
+            return Task.FromResult<ICollection<User>>(_users);
+        }
+
+        public User GetByName(string name)
+        {
+            return _users.FirstOrDefault(u => u.Login.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public IEnumerable<string> GetAllNames()
+        {
+            return _users.Select(u => u.Login);
+        }
+
+        public void Insert(User entity)
+        {
+            _users.Add(entity);
+        }
+
+        public void DeleteById(int id)
+        {
+            var entity = _users.FirstOrDefault(u => u.Id == id);
+            if (entity != null)
+                _users.Remove(entity);
+        }
+
+        public void DeleteCustomProductConsts(List<CustomProductConsts> consts)
+        {
+            // Not applicable for User repository
+        }
+
+        public User GetById(int id)
+        {
+            return _users.FirstOrDefault(u => u.Id == id);
+        }
+
+        public void Update(User entity)
+        {
+            var existing = _users.FirstOrDefault(u => u.Id == entity.Id);
+            if (existing != null)
+            {
+                var index = _users.IndexOf(existing);
+                _users[index] = entity;
+            }
+        }
+
+        public Task<ICollection<User>> GetOrdersAsync(DateTime? dateFrom, DateTime? dateTo)
+        {
+            return Task.FromResult<ICollection<User>>(_users);
+        }
+    }
+
+    public class OrderRepository : IRepository<Order>
+    {
+        private static List<Order> _orders = new List<Order>();
+
+        public IEnumerable<Order> GetAll()
+        {
+            return _orders;
+        }
+
+        public void Add(Order entity)
+        {
+            _orders.Add(entity);
+        }
+
+        public void Delete(Order entity)
+        {
+            _orders.Remove(entity);
+        }
+
+        public void Delete(int id)
+        {
+            var entity = _orders.FirstOrDefault(o => o.Id == id);
+            if (entity != null)
+                _orders.Remove(entity);
+        }
+
+        public Task<ICollection<Order>> GetAllAsync()
+        {
+            return Task.FromResult<ICollection<Order>>(_orders);
+        }
+
+        public Order GetByName(string name)
+        {
+            return _orders.FirstOrDefault(o => o.Code.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public IEnumerable<string> GetAllNames()
+        {
+            return _orders.Select(o => o.Code);
+        }
+
+        public void Insert(Order entity)
+        {
+            _orders.Add(entity);
+        }
+
+        public void DeleteById(int id)
+        {
+            var entity = _orders.FirstOrDefault(o => o.Id == id);
+            if (entity != null)
+                _orders.Remove(entity);
+        }
+
+        public void DeleteCustomProductConsts(List<CustomProductConsts> consts)
+        {
+            // Not applicable for Order repository
+        }
+
+        public Order GetById(int id)
+        {
+            return _orders.FirstOrDefault(o => o.Id == id);
+        }
+
+        public void Update(Order entity)
+        {
+            var existing = _orders.FirstOrDefault(o => o.Id == entity.Id);
+            if (existing != null)
+            {
+                var index = _orders.IndexOf(existing);
+                _orders[index] = entity;
+            }
+        }
+
+        public Task<ICollection<Order>> GetOrdersAsync(DateTime? dateFrom, DateTime? dateTo)
+        {
+            var filteredOrders = _orders.AsEnumerable();
+            if (dateFrom.HasValue)
+                filteredOrders = filteredOrders.Where(o => o.Date >= dateFrom.Value);
+            if (dateTo.HasValue)
+                filteredOrders = filteredOrders.Where(o => o.Date <= dateTo.Value);
+            return Task.FromResult<ICollection<Order>>(filteredOrders.ToList());
         }
     }
 }

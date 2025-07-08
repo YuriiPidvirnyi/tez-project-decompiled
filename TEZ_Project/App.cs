@@ -15,7 +15,7 @@ public class App : Application
 	{
 		XmlConfigurator.Configure();
 		log.Info("        =============  Started Logging  =============        ");
-		((Application)this).OnStartup(e);
+		base.OnStartup(e);
 	}
 
 	[DebuggerNonUserCode]

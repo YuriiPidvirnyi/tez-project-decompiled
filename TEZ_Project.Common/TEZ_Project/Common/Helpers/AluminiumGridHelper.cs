@@ -39,7 +39,7 @@ public static class AluminiumGridHelper
 	private static string GetFilePathForAluminiumGridImage(string filePathForSaving)
 	{
 		string oldValue = Enumerable.Last<string>((IEnumerable<string>)filePathForSaving.Split(new char[1] { '\\' }));
-		string text = filePathForSaving.Replace(oldValue, string.Empty) + "Решітка вент";
+		string text = filePathForSaving.Replace(oldValue, string.Empty, StringComparison.OrdinalIgnoreCase) + "Решітка вент";
 		if (!Directory.Exists(text))
 		{
 			Directory.CreateDirectory(text);
