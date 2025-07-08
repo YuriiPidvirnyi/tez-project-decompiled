@@ -16,6 +16,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>false</Optimize>
     <DebugType>none</DebugType>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,14 +26,10 @@
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
   </ItemGroup>
 
-  <!-- Exclude problematic decompiled files and include stubs -->
+  <!-- Include main project files -->
   <ItemGroup>
-    <Compile Remove="Microsoft\Office\Interop\Excel\**" />
-    <Compile Remove="TEZ_Project\Common\Migrations\**" />
-    <Compile Remove="TEZ_Project\Common\Data\**" />
-    <Compile Remove="--f__AnonymousType*.cs" />
-    <Compile Remove="_003C_003E*.cs" />
-    <Compile Remove="*AnonymousType*.cs" />
+    <Compile Include="TEZ_Project\Common\**\*.cs" 
+             Exclude="TEZ_Project\Common\Data\**;TEZ_Project\Common\Migrations\**" />
   </ItemGroup>
   
   <!-- Include working Data files from original location -->
@@ -41,6 +38,7 @@
     <Compile Include="TEZ_Project\Common\Data\Role.cs" />
     <Compile Include="TEZ_Project\Common\Data\BaseNameDto.cs" />
     <Compile Include="TEZ_Project\Common\Data\CustomProductModel.cs" />
+    <Compile Include="TEZ_Project\Common\Data\Entities\**\*.cs" />
   </ItemGroup>
   
   <!-- Include stub implementations -->
