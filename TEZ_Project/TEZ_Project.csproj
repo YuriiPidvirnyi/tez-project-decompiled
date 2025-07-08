@@ -37,6 +37,7 @@
     <Compile Remove="ConstManager.cs" />
     <Compile Remove="CustomProductWindow.cs" />
     <Compile Remove="MainWindow.cs" />
+    <Compile Remove="ProductWindows\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup>
