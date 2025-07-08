@@ -39,6 +39,12 @@ namespace TEZ_Project.Common.Data
         IEnumerable<T> GetAll();
         void Add(T entity);
         void Delete(T entity);
+        Task<ICollection<T>> GetAllAsync();
+        T GetByName(string name);
+        IEnumerable<string> GetAllNames();
+        void Insert(T entity);
+        void DeleteById(int id);
+        void DeleteCustomProductConsts(List<CustomProductConsts> consts);
     }
 
     public class ConstRepository : IRepository<Const>
@@ -58,6 +64,38 @@ namespace TEZ_Project.Common.Data
         public void Delete(Const entity)
         {
             _consts.Remove(entity);
+        }
+
+        public Task<ICollection<Const>> GetAllAsync()
+        {
+            return Task.FromResult<ICollection<Const>>(_consts);
+        }
+
+        public Const GetByName(string name)
+        {
+            return _consts.FirstOrDefault(c => c.MaterialName.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public IEnumerable<string> GetAllNames()
+        {
+            return _consts.Select(c => c.MaterialName);
+        }
+
+        public void Insert(Const entity)
+        {
+            _consts.Add(entity);
+        }
+
+        public void DeleteById(int id)
+        {
+            var entity = _consts.FirstOrDefault(c => c.Id == id);
+            if (entity != null)
+                _consts.Remove(entity);
+        }
+
+        public void DeleteCustomProductConsts(List<CustomProductConsts> consts)
+        {
+            // Stub implementation for Const repository
         }
     }
 
@@ -88,6 +126,18 @@ public void Insert(CustomProduct entity)
 public void DeleteCustomProductConsts(List<CustomProductConsts> consts)
 {
     // Logic to remove related CustomProductConsts
+}
+
+public IEnumerable<string> GetAllNames()
+{
+    return _products.Select(p => p.Name);
+}
+
+public void DeleteById(int id)
+{
+    var entity = _products.FirstOrDefault(p => p.Id == id);
+    if (entity != null)
+        _products.Remove(entity);
 }
 
 public void Add(CustomProduct entity)
