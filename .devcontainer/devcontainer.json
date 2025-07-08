@@ -1,9 +1,12 @@
 {
-  "name": "TEZ Project - Windows .NET 6.0 WPF",
-  "image": "mcr.microsoft.com/devcontainers/dotnet:0-6.0-windowsservercore-ltsc2019",
+  "name": "TEZ Project - Linux .NET 6.0 Development",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:0-6.0",
   "features": {
     "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/github-cli:1": {}
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18"
+    }
   },
   "customizations": {
     "vscode": {
@@ -11,15 +14,16 @@
         "ms-dotnettools.csharp",
         "ms-dotnettools.vscode-dotnet-runtime",
         "ms-vscode.vscode-json",
-        "ms-vscode.powershell"
+        "redhat.vscode-xml",
+        "GitHub.copilot"
       ],
       "settings": {
         "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
-        "omnisharp.enableEditorConfigSupport": true
+        "omnisharp.useEditorFormattingSettings": true
       }
     }
   },
   "forwardPorts": [5000, 5001],
-  "postCreateCommand": "dotnet restore",
+  "postCreateCommand": "echo '🚀 Налаштування TEZ Project для Linux...' && dotnet restore TEZ_Project.Console && echo '✅ Console проект готовий!' && dotnet --info",
   "remoteUser": "vscode"
 }
