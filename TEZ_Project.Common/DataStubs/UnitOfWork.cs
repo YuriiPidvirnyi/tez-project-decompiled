@@ -9,10 +9,10 @@ namespace TEZ_Project.Common.Data
     public class UnitOfWork : IDisposable
     {
         public IRepository<Const> ConstRepository { get; private set; }
-
-    public IRepository<CustomProduct> CustomProductRepository { get; private set; }
-    public IRepository<User> UserRepository { get; private set; }
-    public IRepository<Order> OrderRepository { get; private set; }
+        public IRepository<CustomProduct> CustomProductRepository { get; private set; }
+        public IRepository<User> UserRepository { get; private set; }
+        public IRepository<Order> OrderRepository { get; private set; }
+        public IRepository<object> ProductRepository { get; private set; }
 
         public UnitOfWork()
         {
@@ -20,6 +20,7 @@ namespace TEZ_Project.Common.Data
             CustomProductRepository = new CustomProductRepository();
             UserRepository = new UserRepository();
             OrderRepository = new OrderRepositoryAdapter();
+            ProductRepository = new ProductRepository();
         }
 
         public static void Save()
@@ -52,6 +53,8 @@ namespace TEZ_Project.Common.Data
         T GetById(int id);
         void Update(T entity);
         Task<ICollection<T>> GetOrdersAsync(DateTime? dateFrom, DateTime? dateTo);
+        void AddOrder(T entity);
+        IEnumerable<T> GetByIds(IEnumerable<int> ids);
     }
 
     public class ConstRepository : IRepository<Const>
@@ -123,6 +126,16 @@ namespace TEZ_Project.Common.Data
         public Task<ICollection<Const>> GetOrdersAsync(DateTime? dateFrom, DateTime? dateTo)
         {
             return Task.FromResult<ICollection<Const>>(_consts);
+        }
+
+        public void AddOrder(Const entity)
+        {
+            _consts.Add(entity);
+        }
+
+        public IEnumerable<Const> GetByIds(IEnumerable<int> ids)
+        {
+            return _consts.Where(c => ids.Contains(c.Id));
         }
     }
 
@@ -196,6 +209,16 @@ public void Add(CustomProduct entity)
         {
             return Task.FromResult<ICollection<CustomProduct>>(_products);
         }
+
+        public void AddOrder(CustomProduct entity)
+        {
+            _products.Add(entity);
+        }
+
+        public IEnumerable<CustomProduct> GetByIds(IEnumerable<int> ids)
+        {
+            return _products.Where(p => ids.Contains(p.Id));
+        }
     }
 
     public class UserRepository : IRepository<User>
@@ -267,6 +290,16 @@ public void Add(CustomProduct entity)
         public Task<ICollection<User>> GetOrdersAsync(DateTime? dateFrom, DateTime? dateTo)
         {
             return Task.FromResult<ICollection<User>>(_users);
+        }
+
+        public void AddOrder(User entity)
+        {
+            _users.Add(entity);
+        }
+
+        public IEnumerable<User> GetByIds(IEnumerable<int> ids)
+        {
+            return _users.Where(u => ids.Contains(u.Id));
         }
     }
 
@@ -344,6 +377,91 @@ public void Add(CustomProduct entity)
             if (dateTo.HasValue)
                 filteredOrders = filteredOrders.Where(o => o.Date <= dateTo.Value);
             return Task.FromResult<ICollection<Order>>(filteredOrders.ToList());
+        }
+
+        public void AddOrder(Order entity)
+        {
+            _orders.Add(entity);
+        }
+
+        public IEnumerable<Order> GetByIds(IEnumerable<int> ids)
+        {
+            return _orders.Where(o => ids.Contains(o.Id));
+        }
+    }
+
+    public class ProductRepository : IRepository<object>
+    {
+        private static List<object> _products = new List<object>();
+
+        public IEnumerable<object> GetAll()
+        {
+            return _products;
+        }
+
+        public void Add(object entity)
+        {
+            _products.Add(entity);
+        }
+
+        public void Delete(object entity)
+        {
+            _products.Remove(entity);
+        }
+
+        public Task<ICollection<object>> GetAllAsync()
+        {
+            return Task.FromResult<ICollection<object>>(_products);
+        }
+
+        public object GetByName(string name)
+        {
+            return _products.FirstOrDefault();
+        }
+
+        public IEnumerable<string> GetAllNames()
+        {
+            return new List<string>();
+        }
+
+        public void Insert(object entity)
+        {
+            _products.Add(entity);
+        }
+
+        public void DeleteById(int id)
+        {
+            // Stub implementation
+        }
+
+        public void DeleteCustomProductConsts(List<CustomProductConsts> consts)
+        {
+            // Not applicable for Product repository
+        }
+
+        public object GetById(int id)
+        {
+            return _products.FirstOrDefault();
+        }
+
+        public void Update(object entity)
+        {
+            // Stub implementation
+        }
+
+        public Task<ICollection<object>> GetOrdersAsync(DateTime? dateFrom, DateTime? dateTo)
+        {
+            return Task.FromResult<ICollection<object>>(_products);
+        }
+
+        public void AddOrder(object entity)
+        {
+            _products.Add(entity);
+        }
+
+        public IEnumerable<object> GetByIds(IEnumerable<int> ids)
+        {
+            return _products;
         }
     }
 }
