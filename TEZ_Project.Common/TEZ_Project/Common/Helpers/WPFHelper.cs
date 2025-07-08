@@ -43,7 +43,10 @@ public static class WPFHelper
 
 	public static string GetProjectRootPath()
 	{
-		return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).Replace("\\bin\\Debug", string.Empty, StringComparison.OrdinalIgnoreCase);
+		// Use AppContext.BaseDirectory for single-file apps compatibility
+		string baseDir = AppContext.BaseDirectory;
+		return baseDir.Replace("\\bin\\Debug", string.Empty, StringComparison.OrdinalIgnoreCase)
+		              .Replace("/bin/Debug", string.Empty, StringComparison.OrdinalIgnoreCase);
 	}
 
 	private static bool ContainsItem(ComboBox comboBox, string itemName)
