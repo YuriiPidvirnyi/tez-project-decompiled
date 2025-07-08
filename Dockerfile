@@ -7,6 +7,7 @@ WORKDIR /src
 # Copy solution and project files
 COPY TEZ_Project.Console.sln .
 COPY TEZ_Project.Console/*.csproj ./TEZ_Project.Console/
+COPY TEZ_Project.Tests/*.csproj ./TEZ_Project.Tests/
 
 # Restore dependencies
 RUN dotnet restore TEZ_Project.Console.sln
