@@ -1,3 +1,5 @@
+using TEZ_Project.Common.Data.Entities;
+
 namespace TEZ_Project.Common.Data
 {
     public class CustomConst
