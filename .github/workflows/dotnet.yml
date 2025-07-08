@@ -22,13 +22,13 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore TEZ_Project.Console.sln
 
     - name: Build Solution
       run: dotnet build TEZ_Project.Console.sln --no-restore --configuration Release
 
     - name: Test Projects
-      run: dotnet test --no-restore --verbosity normal --collect "XPlat Code Coverage"
+      run: dotnet test TEZ_Project.Console.sln --no-restore --verbosity normal --collect "XPlat Code Coverage"
 
     - name: Upload Linux Test Results
       uses: actions/upload-artifact@v4

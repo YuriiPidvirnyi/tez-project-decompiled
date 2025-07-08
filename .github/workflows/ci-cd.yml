@@ -25,13 +25,13 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore TEZ_Project.Console.sln
     
     - name: Build Solution
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build TEZ_Project.Console.sln --no-restore --configuration Release
     
     - name: Run Unit Tests
-      run: dotnet test --no-restore --verbosity normal --collect "XPlat Code Coverage" --results-directory ./TestResults
+      run: dotnet test TEZ_Project.Console.sln --no-restore --verbosity normal --collect "XPlat Code Coverage" --results-directory ./TestResults
     
     - name: Upload Test Results
       uses: actions/upload-artifact@v4
@@ -198,10 +198,10 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore TEZ_Project.Console.sln
     
     - name: Run .NET Code Analysis
-      run: dotnet build --verbosity normal --configuration Release -p:RunAnalyzersDuringBuild=true
+      run: dotnet build TEZ_Project.Console.sln --verbosity normal --configuration Release -p:RunAnalyzersDuringBuild=true
     
     - name: Generate Code Metrics
       run: |

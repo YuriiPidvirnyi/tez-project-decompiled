@@ -19,11 +19,13 @@ jobs:
           - os: ubuntu-latest
             runtime: linux-x64
             project: TEZ_Project.Console
+            solution: TEZ_Project.Console.sln
             artifact: tez-console-linux
             icon: 🐧
           - os: windows-latest
             runtime: win-x64
             project: TEZ_Project
+            solution: TEZ_Project.Windows.sln
             artifact: tez-wpf-windows
             icon: 🪟
     
@@ -39,7 +41,7 @@ jobs:
         dotnet-version: 6.0.x
     
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ${{ matrix.solution }}
       
     - name: Build Project
       run: dotnet build ${{ matrix.project }} --configuration Release --no-restore
