@@ -25,7 +25,7 @@ public class User
 
 	[JsonIgnore]
 	[NotMapped]
-	public string DisplayDate => PasswordSetDate.ToString("dd/MM/yyyy HH mm");
+	public string DisplayDate => PasswordSetDate.ToString("dd/MM/yyyy HH mm", System.Globalization.CultureInfo.InvariantCulture);
 
 	[JsonIgnore]
 	[NotMapped]

@@ -14,5 +14,5 @@ public class CustomProductModel
 
 	public string LastUpdatedBy { get; set; }
 
-	public string DisplayDate => LastUpdatedDate.ToString("dd/MM/yyyy HH mm");
+	public string DisplayDate => LastUpdatedDate.ToString("dd/MM/yyyy HH mm", System.Globalization.CultureInfo.InvariantCulture);
 }

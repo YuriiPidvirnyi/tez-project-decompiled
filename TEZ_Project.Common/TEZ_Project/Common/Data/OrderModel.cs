@@ -33,5 +33,5 @@ public class OrderModel
 	public ICollection<Product> Products { get; set; } = new List<Product>();
 
 
-	public string DisplayDate => Date.ToString("dd/MM/yyyy HH mm");
+	public string DisplayDate => Date.ToString("dd/MM/yyyy HH mm", System.Globalization.CultureInfo.InvariantCulture);
 }

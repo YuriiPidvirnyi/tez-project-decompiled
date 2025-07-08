@@ -34,8 +34,8 @@ public static class SecurePasswordHasher
 	{
 		//IL_0050: Unknown result type (might be due to invalid IL or missing references)
 		//IL_0057: Expected O, but got Unknown
-		string[] array = hashedPassword.Replace("$V1$", "").Split(new char[1] { '$' });
-		int num = int.Parse(array[0]);
+		string[] array = hashedPassword.Replace("$V1$", "", StringComparison.OrdinalIgnoreCase).Split(new char[1] { '$' });
+		int num = int.Parse(array[0], System.Globalization.CultureInfo.InvariantCulture);
 		string s = array[1];
 		byte[] array2 = Convert.FromBase64String(s);
 		byte[] array3 = new byte[16];

@@ -18,7 +18,7 @@ public static class WPFHelper
 		{
 			return null;
 		}
-		return text.Contains(": ") ? Enumerable.Last<string>((IEnumerable<string>)text.Split(new string[1] { ": " }, StringSplitOptions.None)) : text;
+		return text.Contains(": ", StringComparison.OrdinalIgnoreCase) ? Enumerable.Last<string>((IEnumerable<string>)text.Split(new string[1] { ": " }, StringSplitOptions.None)) : text;
 	}
 
 	public static int GetIntValueOrDefault(this TextBox textBox)
@@ -43,7 +43,7 @@ public static class WPFHelper
 
 	public static string GetProjectRootPath()
 	{
-		return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).Replace("\\bin\\Debug", string.Empty);
+		return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).Replace("\\bin\\Debug", string.Empty, StringComparison.OrdinalIgnoreCase);
 	}
 
 	private static bool ContainsItem(ComboBox comboBox, string itemName)

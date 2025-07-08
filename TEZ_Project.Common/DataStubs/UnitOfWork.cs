@@ -22,12 +22,12 @@ namespace TEZ_Project.Common.Data
             OrderRepository = new OrderRepositoryAdapter();
         }
 
-        public void Save()
+        public static void Save()
         {
             // Stub implementation
         }
 
-        public void ReseedTable(string tableName)
+        public static void ReseedTable(string tableName)
         {
             // Stub implementation
         }

@@ -570,7 +570,7 @@ public static class ZontVytiajniyHelper
 	private static string GetFilePathForZontPrystinnyyDxfAndImage(string filePathForSaving)
 	{
 		string oldValue = Enumerable.Last<string>((IEnumerable<string>)filePathForSaving.Split(new char[1] { '\\' }));
-		string text = filePathForSaving.Replace(oldValue, string.Empty) + "Зонт";
+		string text = filePathForSaving.Replace(oldValue, string.Empty, StringComparison.OrdinalIgnoreCase) + "Зонт";
 		if (!Directory.Exists(text))
 		{
 			Directory.CreateDirectory(text);
