@@ -54,18 +54,19 @@ csharp_preserve_single_line_statements = true
 csharp_preserve_single_line_blocks = true
 
 # Code analysis rules
-dotnet_diagnostic.CA1031.severity = warning
+dotnet_diagnostic.CA1031.severity = none
 dotnet_diagnostic.CA1040.severity = warning
 dotnet_diagnostic.CA1062.severity = warning
 dotnet_diagnostic.CA1303.severity = none
 dotnet_diagnostic.CA1304.severity = warning
-dotnet_diagnostic.CA1305.severity = warning
-dotnet_diagnostic.CA1307.severity = warning
+dotnet_diagnostic.CA1305.severity = none
+dotnet_diagnostic.CA1307.severity = none
 dotnet_diagnostic.CA1308.severity = warning
 dotnet_diagnostic.CA1309.severity = warning
+dotnet_diagnostic.CA1416.severity = none
 dotnet_diagnostic.CA1810.severity = warning
-dotnet_diagnostic.CA1822.severity = warning
-dotnet_diagnostic.CA1823.severity = warning
+dotnet_diagnostic.CA1822.severity = none
+dotnet_diagnostic.CA1823.severity = none
 dotnet_diagnostic.CA1825.severity = warning
 dotnet_diagnostic.CA1826.severity = warning
 dotnet_diagnostic.CA1827.severity = warning
