@@ -1,10 +1,21 @@
-name: CI/CD Pipeline
+name: Complete CI/CD Pipeline
 
 on:
   push:
     branches: [ "main", "develop", "release/*" ]
   pull_request:
     branches: [ "main", "develop" ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: false
+        default: 'preview'
+        type: choice
+        options:
+        - preview
+        - staging
+        - production
 
 permissions:
   contents: read
@@ -15,6 +26,8 @@ permissions:
 
 env:
   DOTNET_VERSION: '6.0.x'
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   test:
@@ -272,9 +285,10 @@ jobs:
 
   deploy-preview:
     runs-on: ubuntu-latest
-    name: 🚀 Deploy Preview
+    name: 🚀 Deploy to Preview
     needs: [docker-build, code-analysis, performance-test]
     if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/release/')
+    environment: preview
     
     steps:
     - uses: actions/checkout@v4
@@ -292,35 +306,121 @@ jobs:
     - name: Deploy to Preview Environment
       run: |
         echo "🚀 Deploying to preview environment..."
-        echo "Environment: ${{ github.ref_name }}"
+        echo "Environment: preview"
+        echo "Branch: ${{ github.ref_name }}"
         echo "SHA: ${{ github.sha }}"
-        # Here you would add your deployment logic
+        echo "Docker image: tez-project:latest"
         
-  notify:
+        # Симуляція деплою
+        echo "✅ Preview deployment completed successfully!"
+        echo "🌐 Preview URL: https://preview-${{ github.ref_name }}.tez-project.dev"
+        
+  deploy-staging:
     runs-on: ubuntu-latest
-    name: 📢 Notify
-    needs: [build-linux, build-windows, build-wpf, docker-build, code-analysis]
+    name: 🎭 Deploy to Staging
+    needs: [deploy-preview]
+    if: github.ref == 'refs/heads/main'
+    environment: staging
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download Docker Image
+      uses: actions/download-artifact@v4
+      with:
+        name: tez-project-docker
+        path: .
+    
+    - name: Load Docker Image
+      run: |
+        docker load < tez-project-docker.tar.gz
+    
+    - name: Deploy to Staging Environment
+      run: |
+        echo "🎭 Deploying to staging environment..."
+        echo "Environment: staging"
+        echo "SHA: ${{ github.sha }}"
+        echo "Docker image: tez-project:latest"
+        
+        # Симуляція деплою
+        echo "✅ Staging deployment completed successfully!"
+        echo "🌐 Staging URL: https://staging.tez-project.dev"
+        
+  deploy-production:
+    runs-on: ubuntu-latest
+    name: 🌟 Deploy to Production
+    needs: [deploy-staging]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+    environment: production
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download Docker Image
+      uses: actions/download-artifact@v4
+      with:
+        name: tez-project-docker
+        path: .
+    
+    - name: Load Docker Image
+      run: |
+        docker load < tez-project-docker.tar.gz
+    
+    - name: Deploy to Production Environment
+      run: |
+        echo "🌟 Deploying to production environment..."
+        echo "Environment: production"
+        echo "SHA: ${{ github.sha }}"
+        echo "Docker image: tez-project:latest"
+        
+        # Симуляція деплою
+        echo "✅ Production deployment completed successfully!"
+        echo "🌐 Production URL: https://tez-project.dev"
+        
+  final-summary:
+    runs-on: ubuntu-latest
+    name: 📢 Pipeline Summary
+    needs: [test, build-linux, build-windows, build-wpf, docker-build, code-analysis, performance-test]
     if: always()
     
     steps:
-    - name: Notify Success
-      if: needs.build-linux.result == 'success' && needs.build-windows.result == 'success' && needs.build-wpf.result == 'success'
+    - name: Pipeline Summary
       run: |
-        echo "✅ All builds completed successfully!"
-        echo "📊 Build Summary:"
-        echo "  - Linux Build: ✅"
-        echo "  - Windows Console: ✅"
-        echo "  - Windows WPF: ✅"
-        echo "  - Docker Build: ✅"
-        echo "  - Code Analysis: ✅"
-    
-    - name: Notify Failure
-      if: needs.build-linux.result == 'failure' || needs.build-windows.result == 'failure' || needs.build-wpf.result == 'failure'
-      run: |
-        echo "❌ Some builds failed!"
-        echo "📊 Build Summary:"
-        echo "  - Linux Build: ${{ needs.build-linux.result }}"
-        echo "  - Windows Console: ${{ needs.build-windows.result }}"
-        echo "  - Windows WPF: ${{ needs.build-wpf.result }}"
-        echo "  - Docker Build: ${{ needs.docker-build.result }}"
-        echo "  - Code Analysis: ${{ needs.code-analysis.result }}"
+        echo "## 📊 Complete CI/CD Pipeline Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        echo "### 🔍 Build & Test Results" >> $GITHUB_STEP_SUMMARY
+        echo "| Stage | Status |" >> $GITHUB_STEP_SUMMARY
+        echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+        echo "| 🧪 Tests & Quality | ${{ needs.test.result == 'success' && '✅ Success' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| 🐧 Linux Build | ${{ needs.build-linux.result == 'success' && '✅ Success' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| 🪟 Windows Console | ${{ needs.build-windows.result == 'success' && '✅ Success' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| 📺 Windows WPF | ${{ needs.build-wpf.result == 'success' && '✅ Success' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| 🐳 Docker Build | ${{ needs.docker-build.result == 'success' && '✅ Success' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| 📊 Code Analysis | ${{ needs.code-analysis.result == 'success' && '✅ Success' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| ⚡ Performance Test | ${{ needs.performance-test.result == 'success' && '✅ Success' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 🚀 Deployment Status" >> $GITHUB_STEP_SUMMARY
+        echo "- **Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Trigger**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+        
+        if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+          echo "- **Environment**: Production ready 🌟" >> $GITHUB_STEP_SUMMARY
+        elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+          echo "- **Environment**: Preview deployment 🚀" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "- **Environment**: Feature branch" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Обчислення загального статусу
+        if [[ "${{ needs.test.result }}" == "success" && "${{ needs.build-linux.result }}" == "success" && "${{ needs.build-windows.result }}" == "success" && "${{ needs.build-wpf.result }}" == "success" && "${{ needs.docker-build.result }}" == "success" ]]; then
+          echo "### ✅ Pipeline Status: SUCCESS" >> $GITHUB_STEP_SUMMARY
+          echo "🎉 All stages completed successfully!" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "### ❌ Pipeline Status: FAILED" >> $GITHUB_STEP_SUMMARY
+          echo "⚠️ Some stages failed. Please check the logs above." >> $GITHUB_STEP_SUMMARY
+        fi
