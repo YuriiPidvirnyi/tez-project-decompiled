@@ -38,5 +38,38 @@ namespace TEZ_Project.Common.Data
             OdVym1 = odVym1;
             OdVym2 = odVym2;
         }
+
+        // Constructor with 10 parameters as used in LoadConstsFromDb
+        public CustomConst(int id, string materialName, double price, string materialNameFlight, string code1, string materialName1C, string code2, string odVym1, string odVym2, string nameInApp)
+        {
+            Id = id;
+            MaterialName = materialName;
+            Price = price;
+            MaterialNameFlight = materialNameFlight;
+            Code1 = code1;
+            MaterialName1C = materialName1C;
+            Code2 = code2;
+            OdVym1 = odVym1;
+            OdVym2 = odVym2;
+            NameInApp = nameInApp;
+        }
+
+        // ToConst method stub
+        public Const ToConst(string name)
+        {
+            return new Const
+            {
+                Id = this.Id,
+                MaterialName = this.MaterialName,
+                Price = this.Price,
+                MaterialNameFlight = this.MaterialNameFlight,
+                Code1 = this.Code1,
+                MaterialName1C = this.MaterialName1C,
+                Code2 = this.Code2,
+                OdVym1 = this.OdVym1,
+                OdVym2 = this.OdVym2,
+                NameInApp = this.NameInApp
+            };
+        }
     }
 }
