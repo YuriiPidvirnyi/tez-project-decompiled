@@ -33,7 +33,7 @@
     <Compile Remove="Users\UserManagment.cs" />
     <Compile Remove="Users\CreateUser.cs" />
     <Compile Remove="Users\ChangePassword.cs" />
-    <Compile Remove="Order.cs" />
+    <!-- <Compile Remove="Order.cs" /> -->
     <Compile Remove="ConstManager.cs" />
     <Compile Remove="CustomProductWindow.cs" />
     <Compile Remove="MainWindow.cs" />
