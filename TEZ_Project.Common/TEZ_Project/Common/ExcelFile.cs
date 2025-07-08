@@ -21,7 +21,7 @@ public class ExcelFile
 
 	private Process excelProcess;
 
-	private Application myExcelApplication;
+	private Microsoft.Office.Interop.Excel.Application myExcelApplication;
 
 	private Workbook myExcelWorkbook;
 
@@ -57,7 +57,7 @@ public class ExcelFile
 	public void OpenExcel()
 	{
 		myExcelApplication = null;
-		myExcelApplication = (Application)Activator.CreateInstance(Marshal.GetTypeFromCLSID(new Guid("00024500-0000-0000-C000-000000000046")));
+		myExcelApplication = (Microsoft.Office.Interop.Excel.Application)Activator.CreateInstance(Marshal.GetTypeFromCLSID(new Guid("00024500-0000-0000-C000-000000000046")));
 		myExcelApplication.DisplayAlerts = false;
 		excelProcess = Enumerable.LastOrDefault<Process>(Enumerable.Where<Process>((IEnumerable<Process>)Process.GetProcessesByName("EXCEL"), (Func<Process, bool>)((Process p) => string.IsNullOrEmpty(p.MainWindowTitle))));
 		myExcelWorkbook = myExcelApplication.Workbooks._Open(ExcelFilePath, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value);
