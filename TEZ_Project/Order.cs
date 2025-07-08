@@ -129,7 +129,7 @@ public class Order : Window, IComponentConnector, IStyleConnector
 			TEZ_Project.Common.Data.Entities.Order byId = unitOfWork.OrderRepository.GetById(int.Parse(((UIElement)val).Uid));
 			byId.Status = ((Selector)val).SelectedIndex;
 			unitOfWork.OrderRepository.Update(byId);
-			unitOfWork.Save();
+			UnitOfWork.Save();
 		}
 		catch (Exception exception)
 		{
@@ -159,7 +159,7 @@ public class Order : Window, IComponentConnector, IStyleConnector
 			TEZ_Project.Common.Data.Entities.Order byId = unitOfWork.OrderRepository.GetById(int.Parse(((UIElement)val).Uid));
 			byId.Priority = ((Selector)val).SelectedIndex;
 			unitOfWork.OrderRepository.Update(byId);
-			unitOfWork.Save();
+			UnitOfWork.Save();
 		}
 		catch (Exception exception)
 		{
@@ -196,7 +196,7 @@ public class Order : Window, IComponentConnector, IStyleConnector
 		{
 			using UnitOfWork unitOfWork = new UnitOfWork();
 			unitOfWork.OrderRepository.Delete(orderModel.OrderId);
-			unitOfWork.Save();
+			UnitOfWork.Save();
 			((ItemsControl)List).Items.Remove((object)orderModel);
 		}
 		catch (Exception exception)

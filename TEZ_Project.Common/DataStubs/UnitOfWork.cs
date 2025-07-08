@@ -23,7 +23,7 @@ namespace TEZ_Project.Common.Data
             ProductRepository = new ProductRepository();
         }
 
-        public void Save()
+        public static void Save()
         {
             // Stub implementation
         }
