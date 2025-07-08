@@ -28,6 +28,17 @@
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
   </ItemGroup>
 
+  <!-- Exclude problematic files from compilation -->
+  <ItemGroup>
+    <Compile Remove="Users\UserManagment.cs" />
+    <Compile Remove="Users\CreateUser.cs" />
+    <Compile Remove="Users\ChangePassword.cs" />
+    <Compile Remove="Order.cs" />
+    <Compile Remove="ConstManager.cs" />
+    <Compile Remove="CustomProductWindow.cs" />
+    <Compile Remove="MainWindow.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Update="**/*.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

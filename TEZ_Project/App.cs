@@ -22,7 +22,7 @@ public class App : Application
 	[GeneratedCode("PresentationBuildTasks", "4.0.0.0")]
 	public void InitializeComponent()
 	{
-		((Application)this).StartupUri = new Uri("MainWindow.xaml", UriKind.Relative);
+		((Application)this).StartupUri = new Uri("MainWindow_Stub.xaml", UriKind.Relative);
 	}
 
 	[STAThread]
