@@ -11,7 +11,7 @@ namespace TEZ_Project.Common.Data
         public IRepository<Const> ConstRepository { get; private set; }
         public IRepository<CustomProduct> CustomProductRepository { get; private set; }
         public IRepository<User> UserRepository { get; private set; }
-        public IRepository<Order> OrderRepository { get; private set; }
+        public OrderRepository OrderRepository { get; private set; }
         public IRepository<object> ProductRepository { get; private set; }
 
         public UnitOfWork()
@@ -19,11 +19,11 @@ namespace TEZ_Project.Common.Data
             ConstRepository = new ConstRepository();
             CustomProductRepository = new CustomProductRepository();
             UserRepository = new UserRepository();
-            OrderRepository = new OrderRepositoryAdapter();
+            OrderRepository = new OrderRepository(new AppDbContext());
             ProductRepository = new ProductRepository();
         }
 
-        public static void Save()
+        public void Save()
         {
             // Stub implementation
         }
