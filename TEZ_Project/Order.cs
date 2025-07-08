@@ -18,7 +18,6 @@ using TEZ_Project.Common.Data.Entities;
 using static TEZ_Project.Common.Data.OrderAction;
 using log4net;
 using TEZ_Project.Common.Data.Repositories;
-using TEZ_Project.Common.Data.Entities.Users;
 
 namespace TEZ_Project;
 
@@ -66,7 +65,10 @@ public class Order : Window, IComponentConnector, IStyleConnector
 		{
 			DateTime? dateFrom = datePicker_OrdersDateFrom.SelectedDate;
 			DateTime? dateTo = (datePicker_OrdersDateTo.SelectedDate.HasValue ? new DateTime?(datePicker_OrdersDateTo.SelectedDate.Value.AddDays(1.0)) : datePicker_OrdersDateTo.SelectedDate);
-			Orders = await new UnitOfWork().OrderRepository.GetOrdersAsync(dateFrom, dateTo);
+			using (var unitOfWork = new UnitOfWork())
+			{
+				Orders = await unitOfWork.OrderRepository.GetOrdersAsync(dateFrom, dateTo);
+			}
 			PopulateListView();
 		}
 		catch (Exception ex2)
