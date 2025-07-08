@@ -67,6 +67,34 @@ jobs:
         name: tez-console-windows
         path: TEZ_Project.Console/bin/Release/net6.0/win-x64/publish/
 
+  # Windows WPF Build (повноцінний WPF проект)
+  windows-wpf:
+    runs-on: windows-latest
+    name: 📺 Windows WPF Build
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 6.0.x
+        
+    - name: Restore WPF Dependencies
+      run: dotnet restore TEZ_Project.Windows.sln
+      
+    - name: Build WPF Project
+      run: dotnet build TEZ_Project.Windows.sln --no-restore --configuration Release
+      
+    - name: Publish WPF (Windows)
+      run: dotnet publish TEZ_Project -c Release -r win-x64 --self-contained
+      
+    - name: Upload WPF Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: tez-wpf-windows
+        path: TEZ_Project/bin/Release/net6.0-windows/win-x64/publish/
+
   # Common Library Analysis
   analyze-common:
     runs-on: ubuntu-latest
@@ -100,7 +128,7 @@ jobs:
   docker-build:
     runs-on: ubuntu-latest
     name: 🐳 Docker Build
-    needs: [linux-console, windows-console]
+    needs: [linux-console, windows-console, windows-wpf]
     
     steps:
     - uses: actions/checkout@v4
