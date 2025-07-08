@@ -35,6 +35,9 @@ artifacts/
 # JetBrains
 .idea/
 
+# Test results
+TestResults/
+
 # Temporary files
 *.tmp
 *.log
