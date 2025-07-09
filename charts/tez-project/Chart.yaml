@@ -1,0 +1,33 @@
+apiVersion: v2
+name: tez-project
+description: A Helm chart for TEZ Project Console Application
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
+home: https://github.com/user/tez-project
+sources:
+  - https://github.com/user/tez-project
+
+maintainers:
+  - name: TEZ Team
+    email: team@tez-project.dev
+
+keywords:
+  - tez
+  - console
+  - application
+  - dotnet
+
+dependencies:
+  - name: postgresql
+    version: "12.1.9"
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: postgresql.enabled
+  - name: redis
+    version: "17.4.3"
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: redis.enabled
+
+annotations:
+  category: Application

@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  tez-console-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build
+    container_name: tez-console-dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+      - .:/src
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=true
+      - DOTNET_WATCH_RESTART_ON_RUDE_EDIT=true
+    networks:
+      - tez-dev-network
+    restart: unless-stopped
+    depends_on:
+      - database-dev
+      - redis-dev
+    command: dotnet watch run --project TEZ_Project.Console
+
+  database-dev:
+    image: postgres:15-alpine
+    container_name: tez-database-dev
+    environment:
+      - POSTGRES_DB=tez_db_dev
+      - POSTGRES_USER=tez_user
+      - POSTGRES_PASSWORD=tez_password_dev
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./sql/init-dev.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5433:5432"
+    networks:
+      - tez-dev-network
+    restart: unless-stopped
+
+  redis-dev:
+    image: redis:7-alpine
+    container_name: tez-redis-dev
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_dev_data:/data
+    networks:
+      - tez-dev-network
+    restart: unless-stopped
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: tez-mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - tez-dev-network
+    restart: unless-stopped
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: tez-jaeger
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+    networks:
+      - tez-dev-network
+    restart: unless-stopped
+
+volumes:
+  postgres_dev_data:
+  redis_dev_data:
+
+networks:
+  tez-dev-network:
+    driver: bridge

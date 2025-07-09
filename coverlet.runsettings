@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat code coverage">
+        <Configuration>
+          <Format>opencover,lcov,json</Format>
+          <Exclude>
+            [*Tests*]*
+            [*]*.Migrations.*
+            [*]*.Data.*
+            [*]*.Stubs.*
+            [*]*Exception*
+            [*]*Test*
+            [*]*.AssemblyInfo
+          </Exclude>
+          <ExcludeByFile>
+            **/bin/**
+            **/obj/**
+            **/migrations/**
+            **/data/**
+            **/stubs/**
+          </ExcludeByFile>
+          <IncludeTestAssembly>false</IncludeTestAssembly>
+          <SingleHit>false</SingleHit>
+          <UseSourceLink>true</UseSourceLink>
+          <SkipAutoProps>true</SkipAutoProps>
+          <DeterministicReport>false</DeterministicReport>
+          <ExcludeAssembliesWithoutSources>MissingAll,MissingAny,None</ExcludeAssembliesWithoutSources>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>

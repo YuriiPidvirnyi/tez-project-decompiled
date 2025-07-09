@@ -1,0 +1,300 @@
+name: ☸️ Deploy to Kubernetes
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+      namespace:
+        description: 'Kubernetes namespace'
+        required: false
+        default: 'tez-project'
+
+permissions:
+  contents: read
+  packages: write
+  deployments: write
+
+env:
+  DOTNET_VERSION: '6.0.x'
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  HELM_VERSION: '3.12.0'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    name: 🐳 Build & Push Docker Image
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+      image-digest: ${{ steps.build.outputs.digest }}
+      
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Log in to Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=sha,prefix={{branch}}-
+          type=raw,value=latest,enable={{is_default_branch}}
+    
+    - name: Build and push Docker image
+      id: build
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  deploy-k8s:
+    runs-on: ubuntu-latest
+    name: ☸️ Deploy to Kubernetes
+    needs: build-and-push
+    environment: 
+      name: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/main' && 'production' || 'staging') }}
+      
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Helm
+      uses: azure/setup-helm@v3
+      with:
+        version: ${{ env.HELM_VERSION }}
+    
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+    
+    - name: Configure kubectl
+      run: |
+        echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > ~/.kube/config
+        chmod 600 ~/.kube/config
+    
+    - name: Set environment variables
+      run: |
+        ENV="${{ github.event.inputs.environment || (github.ref == 'refs/heads/main' && 'production' || 'staging') }}"
+        NAMESPACE="${{ github.event.inputs.namespace || 'tez-project' }}"
+        
+        echo "DEPLOY_ENV=$ENV" >> $GITHUB_ENV
+        echo "NAMESPACE=$NAMESPACE" >> $GITHUB_ENV
+        
+        # Generate release name
+        RELEASE_NAME="tez-project-$ENV"
+        echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
+    
+    - name: Create namespace
+      run: |
+        kubectl create namespace ${{ env.NAMESPACE }} --dry-run=client -o yaml | kubectl apply -f -
+        kubectl label namespace ${{ env.NAMESPACE }} environment=${{ env.DEPLOY_ENV }} --overwrite
+    
+    - name: Add Helm repositories
+      run: |
+        helm repo add bitnami https://charts.bitnami.com/bitnami
+        helm repo update
+    
+    - name: Prepare Helm values
+      run: |
+        cat > values-${{ env.DEPLOY_ENV }}.yaml << EOF
+        image:
+          repository: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tag: ${{ github.sha }}
+          pullPolicy: Always
+        
+        replicaCount: ${{ env.DEPLOY_ENV == 'production' && '3' || '1' }}
+        
+        resources:
+          requests:
+            cpu: ${{ env.DEPLOY_ENV == 'production' && '500m' || '250m' }}
+            memory: ${{ env.DEPLOY_ENV == 'production' && '512Mi' || '256Mi' }}
+          limits:
+            cpu: ${{ env.DEPLOY_ENV == 'production' && '1000m' || '500m' }}
+            memory: ${{ env.DEPLOY_ENV == 'production' && '1Gi' || '512Mi' }}
+        
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: ${{ env.DEPLOY_ENV == 'production' && 'Production' || 'Development' }}
+          - name: DOTNET_ENVIRONMENT
+            value: ${{ env.DEPLOY_ENV == 'production' && 'Production' || 'Development' }}
+        
+        ingress:
+          enabled: true
+          className: "nginx"
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt-prod"
+            nginx.ingress.kubernetes.io/ssl-redirect: "true"
+          hosts:
+            - host: ${{ env.DEPLOY_ENV == 'production' && 'tez-project.dev' || format('{0}.tez-project.dev', env.DEPLOY_ENV) }}
+              paths:
+                - path: /
+                  pathType: Prefix
+          tls:
+            - secretName: tez-project-${{ env.DEPLOY_ENV }}-tls
+              hosts:
+                - ${{ env.DEPLOY_ENV == 'production' && 'tez-project.dev' || format('{0}.tez-project.dev', env.DEPLOY_ENV) }}
+        
+        postgresql:
+          enabled: true
+          auth:
+            username: "tez_user"
+            existingSecret: "postgresql-secret"
+            database: "tez_db_${{ env.DEPLOY_ENV }}"
+        
+        redis:
+          enabled: true
+          auth:
+            enabled: true
+            existingSecret: "redis-secret"
+            existingSecretPasswordKey: "redis-password"
+        
+        autoscaling:
+          enabled: ${{ env.DEPLOY_ENV == 'production' && 'true' || 'false' }}
+          minReplicas: ${{ env.DEPLOY_ENV == 'production' && '2' || '1' }}
+          maxReplicas: ${{ env.DEPLOY_ENV == 'production' && '10' || '3' }}
+          targetCPUUtilizationPercentage: 70
+        
+        monitoring:
+          enabled: ${{ env.DEPLOY_ENV == 'production' && 'true' || 'false' }}
+        EOF
+    
+    - name: Deploy with Helm
+      run: |
+        helm upgrade --install ${{ env.RELEASE_NAME }} \
+          ./charts/tez-project \
+          --namespace ${{ env.NAMESPACE }} \
+          --values values-${{ env.DEPLOY_ENV }}.yaml \
+          --set image.tag=${{ github.sha }} \
+          --wait \
+          --timeout 10m
+    
+    - name: Verify deployment
+      run: |
+        echo "🔍 Verifying deployment..."
+        kubectl get pods -n ${{ env.NAMESPACE }} -l app.kubernetes.io/name=tez-project
+        kubectl get services -n ${{ env.NAMESPACE }} -l app.kubernetes.io/name=tez-project
+        kubectl get ingress -n ${{ env.NAMESPACE }} -l app.kubernetes.io/name=tez-project
+        
+        # Wait for rollout to complete
+        kubectl rollout status deployment/${{ env.RELEASE_NAME }}-tez-project -n ${{ env.NAMESPACE }}
+        
+        echo "✅ Deployment verified successfully!"
+    
+    - name: Run post-deployment tests
+      run: |
+        echo "🧪 Running post-deployment tests..."
+        
+        # Get the service URL
+        SERVICE_URL=$(kubectl get ingress -n ${{ env.NAMESPACE }} -o jsonpath='{.items[0].spec.rules[0].host}')
+        
+        if [ -n "$SERVICE_URL" ]; then
+          echo "Testing URL: https://$SERVICE_URL"
+          
+          # Wait for service to be ready
+          sleep 30
+          
+          # Basic health check
+          for i in {1..10}; do
+            if curl -f -s "https://$SERVICE_URL/health" > /dev/null; then
+              echo "✅ Health check passed"
+              break
+            fi
+            echo "⏳ Waiting for service to be ready... ($i/10)"
+            sleep 10
+          done
+        else
+          echo "⚠️ No ingress URL found, skipping external tests"
+        fi
+    
+    - name: Update deployment status
+      if: always()
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const deployment = await github.rest.repos.createDeployment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: context.sha,
+            environment: '${{ env.DEPLOY_ENV }}',
+            auto_merge: false,
+            required_contexts: []
+          });
+          
+          const state = '${{ job.status }}' === 'success' ? 'success' : 'failure';
+          const environmentUrl = '${{ env.DEPLOY_ENV }}' === 'production' 
+            ? 'https://tez-project.dev' 
+            : `https://${{ env.DEPLOY_ENV }}.tez-project.dev`;
+          
+          await github.rest.repos.createDeploymentStatus({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            deployment_id: deployment.data.id,
+            state: state,
+            environment_url: environmentUrl,
+            description: `Kubernetes deployment ${state}`
+          });
+
+  cleanup:
+    runs-on: ubuntu-latest
+    name: 🧹 Cleanup
+    needs: deploy-k8s
+    if: always()
+    
+    steps:
+    - name: Cleanup old releases
+      run: |
+        echo "🧹 Cleaning up old Helm releases..."
+        
+        # Keep only last 5 releases
+        helm history ${{ env.RELEASE_NAME }} -n ${{ env.NAMESPACE }} --max 5 || true
+        
+        echo "✅ Cleanup completed!"
+
+  notify:
+    runs-on: ubuntu-latest
+    name: 📢 Notification
+    needs: [deploy-k8s, cleanup]
+    if: always()
+    
+    steps:
+    - name: Notify team
+      run: |
+        echo "📢 Kubernetes Deployment Notification"
+        echo "===================================="
+        echo "Environment: ${{ env.DEPLOY_ENV }}"
+        echo "Namespace: ${{ env.NAMESPACE }}"
+        echo "Release: ${{ env.RELEASE_NAME }}"
+        echo "Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
+        echo "Status: ${{ needs.deploy-k8s.result }}"
+        
+        URL="${{ env.DEPLOY_ENV == 'production' && 'https://tez-project.dev' || format('https://{0}.tez-project.dev', env.DEPLOY_ENV) }}"
+        echo "URL: $URL"
+        
+        if [[ "${{ needs.deploy-k8s.result }}" == "success" ]]; then
+          echo "✅ Kubernetes deployment successful!"
+        else
+          echo "❌ Kubernetes deployment failed!"
+        fi

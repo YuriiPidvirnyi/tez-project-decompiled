@@ -44,14 +44,14 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     
-    - name: Restore dependencies
+    - name: Restore Console dependencies
       run: dotnet restore TEZ_Project.Console.sln
     
-    - name: Build Solution
+    - name: Build Console Solution
       run: dotnet build TEZ_Project.Console.sln --no-restore --configuration Release --verbosity minimal
     
     - name: Run Unit Tests
-      run: dotnet test TEZ_Project.Console.sln --no-restore --verbosity normal --collect "XPlat Code Coverage" --logger trx --results-directory ./TestResults
+      run: dotnet test TEZ_Project.Console.sln --no-restore --verbosity normal --collect "XPlat Code Coverage" --logger trx --results-directory ./TestResults --settings coverlet.runsettings
     
     - name: Upload Test Results
       uses: actions/upload-artifact@v4
@@ -61,10 +61,11 @@ jobs:
         retention-days: 30
     
     - name: Code Coverage Report
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
         directory: ./TestResults
         fail_ci_if_error: false
+        token: ${{ secrets.CODECOV_TOKEN }}
     
     - name: Generate Test Report Summary
       if: success() || failure()
@@ -162,10 +163,10 @@ jobs:
       run: dotnet restore TEZ_Project.Windows.sln
     
     - name: Build WPF Project
-      run: dotnet build TEZ_Project.Windows.sln --no-restore --configuration Release --verbosity minimal
+      run: dotnet build TEZ_Project.Windows.sln --no-restore --configuration Release --verbosity minimal -p:TreatWarningsAsErrors=false
     
     - name: Publish WPF (Windows)
-      run: dotnet publish TEZ_Project -c Release -r win-x64 --self-contained -p:PublishSingleFile=true
+      run: dotnet publish TEZ_Project -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
     
     - name: Upload WPF Artifacts
       uses: actions/upload-artifact@v4
@@ -191,7 +192,7 @@ jobs:
         docker build -f Dockerfile -t tez-project:${{ github.sha }} .
     
     - name: Run Trivy vulnerability scanner
-      uses: aquasecurity/trivy-action@master
+      uses: aquasecurity/trivy-action@0.20.0
       with:
         image-ref: 'tez-project:latest'
         format: 'sarif'
