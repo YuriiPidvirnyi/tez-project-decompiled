@@ -19,7 +19,7 @@ env:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    name: 🔨 Build & Test
+    name: 🔨 Build & Test
     outputs:
       version: ${{ steps.version.outputs.version }}
       
