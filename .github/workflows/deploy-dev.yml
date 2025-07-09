@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [ "develop" ]
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      ref:
+        description: 'Git reference to deploy'
+        required: false
+        default: 'main'
+        type: string
 
 permissions:
   contents: read

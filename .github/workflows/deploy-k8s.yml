@@ -16,6 +16,23 @@ on:
         description: 'Kubernetes namespace'
         required: false
         default: 'tez-project'
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'staging'
+        type: string
+      namespace:
+        description: 'Kubernetes namespace'
+        required: false
+        default: 'tez-project'
+        type: string
+      ref:
+        description: 'Git reference to deploy'
+        required: false
+        default: 'main'
+        type: string
 
 permissions:
   contents: read
